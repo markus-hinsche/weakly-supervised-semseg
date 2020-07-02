@@ -17,3 +17,9 @@ Labels are supplied with 1 class per pixel, as follows:
 ## Project
 
 Weakly supervised learning with some fully supervised (pixel-level) annotations.
+
+## Run unit tests
+
+```bash
+pytest
+```

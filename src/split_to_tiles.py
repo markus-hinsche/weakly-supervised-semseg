@@ -1,4 +1,4 @@
-# TODO Split the images & labels into tiles of size hxw=200x200
+"""Split the images & labels into tiles of size hxw=200x200"""
 
 import os
 from PIL import Image
@@ -10,9 +10,15 @@ GT_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE/"  # file
 IMAGE_DATA_TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen/top_tiles/"  # file e.g. top_mosaic_09cm_area1_tile1.tif
 GT_TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE_tiles/"  # file e.g. top_mosaic_09cm_area1_tile1.tif
 
-# https://stackoverflow.com/a/7051075/5497962
+HEIGHT_TILE = 200
+WIDTH_TILE = 200
+
+# Inspired by https://stackoverflow.com/a/7051075/5497962
 def crop(input: str, output_pattern: str, height: int, width: int):
-    """Take a large image and make non-overlapping tiles (small images) out of it."""
+    """Take a large image and make non-overlapping tiles (small images) out of it.
+
+    Tiles from the right and lower edge can have a black leftover.
+    """
     k=0
     im = Image.open(input)
     imgwidth, imgheight = im.size
@@ -23,15 +29,20 @@ def crop(input: str, output_pattern: str, height: int, width: int):
             tile.save(output_pattern % k)
             k += 1
 
-crop(input=str(Path(IMAGE_DATA_DIR) / "top_mosaic_09cm_area1.tif"),
-     output_pattern=str(Path(IMAGE_DATA_TILES_DIR) / "top_mosaic_09cm_area1_tile%s.tif"),
-     height=200,
-     width=200)
+if __name__ == "__main__":
+    for fname in os.listdir(Path(IMAGE_DATA_DIR)):
+        print(fname)
 
-# TODO do for labels+ images
-# TODO for all images not just one
+        # tile image
+        crop(input=str(Path(IMAGE_DATA_DIR) / fname),
+            output_pattern=str(Path(IMAGE_DATA_TILES_DIR) / fname)[:-4] + "_tile%s.tif",
+            height=HEIGHT_TILE,
+            width=WIDTH_TILE)
 
+        # tile GT
+        crop(input=str(Path(GT_DIR) / fname),
+            output_pattern=str(Path(GT_TILES_DIR) / fname)[:-4] + "_tile%s.tif",
+            height=HEIGHT_TILE,
+            width=WIDTH_TILE)
 
-# 33 high-res images
-# ignore class 6
-
+    # Result: 33 high-res are split into 4497 tiles

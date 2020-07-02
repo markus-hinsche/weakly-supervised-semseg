@@ -7,6 +7,22 @@ GT_TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE_til
 HEIGHT_TILE = 200
 WIDTH_TILE = 200
 
+WHITE = (255, 255, 255)
+BLUE = (0, 0, 255)
+TURQUOISE = (0, 255, 255)
+GREEN = (0, 255, 0)
+YELLOW = (255, 255, 0)
+RED = (255, 0, 0)  # outlier: ignore
+BLACK = (0, 0, 0)  # leftover pieces: ignore
+
+LABELS = [
+    WHITE,
+    BLUE,
+    TURQUOISE,
+    GREEN,
+    YELLOW,
+]
+
 N1 = [
     'top_mosaic_09cm_area12.tif',
     'top_mosaic_09cm_area15.tif',

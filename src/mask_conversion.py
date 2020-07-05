@@ -4,7 +4,7 @@ from pathlib import Path
 from PIL import Image
 import numpy as np
 
-from .config import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, TILES_DIR, LABELS, RED, BLACK, WHITE, GT_ADJ_DIR
+from .config import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, GT_ADJ_TILES_DIR, TILES_DIR, LABELS, RED, BLACK, WHITE, GT_ADJ_DIR
 
 
 def convert_image(fpath, out_fpath):
@@ -27,9 +27,15 @@ def convert_image(fpath, out_fpath):
 
 if __name__ == "__main__":
 
-    # for fname in os.listdir(GT_DIR):
-    fname = os.listdir(GT_DIR)[0]
+    # src_dir = GT_DIR
+    # dest_dir = GT_ADJ_DIR
 
-    fpath = Path(GT_DIR) / fname
-    out_fpath = Path(GT_ADJ_DIR) / fname
-    convert_image(fpath, out_fpath)
+    src_dir = GT_TILES_DIR
+    dest_dir = GT_ADJ_TILES_DIR
+
+    for fname in os.listdir(src_dir):
+    # fname = os.listdir(src_dir)[0]
+
+        fpath = Path(src_dir) / fname
+        out_fpath = Path(dest_dir) / fname
+        convert_image(fpath, out_fpath)

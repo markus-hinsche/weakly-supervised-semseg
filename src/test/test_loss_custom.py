@@ -20,7 +20,7 @@ def test_cross_entropy():
 
     loss = CrossEntropyFlat(axis=1)
     value = loss(predictions, ys.long())
-    assert value>0
+    assert value > 0
 
 def test_weak_cross_entropy_basic():
     n_classes = 5
@@ -36,7 +36,7 @@ def test_weak_cross_entropy_basic():
 
     loss = WeakCrossEntropy(axis=1)
     value = loss(predictions, ys)
-    assert value>0
+    assert value > 0
 
 def test_weak_cross_entropy_all_classes():
     n_classes = 5
@@ -52,7 +52,7 @@ def test_weak_cross_entropy_all_classes():
 
     loss = WeakCrossEntropy(axis=1)
     value = loss(predictions, ys)
-    # assert value==0.  # TODO
+    assert torch.isclose(value, torch.Tensor([0.]))
 
 def test_weak_cross_entropy_one_color_correct():
     """When always predicting the correct color with prob=1.0, the loss should be zero"""
@@ -69,7 +69,7 @@ def test_weak_cross_entropy_one_color_correct():
 
     loss = WeakCrossEntropy(axis=1)
     value = loss(predictions, ys)
-    assert value==0.
+    assert value == 0.
 
 def test_weak_cross_entropy_one_color_wrong():
     """When always predicting the wrong color with prob=1.0, the loss should be zero"""
@@ -86,4 +86,4 @@ def test_weak_cross_entropy_one_color_wrong():
 
     loss = WeakCrossEntropy(axis=1)
     value = loss(predictions, ys)
-    assert value==np.inf
+    assert value == np.inf

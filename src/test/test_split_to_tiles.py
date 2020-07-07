@@ -23,5 +23,5 @@ def test_crop_count():
          width=100)
     actual = count_elements_in_dir(output_dir)
     expected = math.ceil(350 / 100) * math.ceil(490 / 100)
-    assert(actual == expected), os.listdir(output_dir)
+    assert actual == expected, os.listdir(output_dir)
     empty_dir(output_dir)

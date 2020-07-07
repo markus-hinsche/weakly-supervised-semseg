@@ -14,4 +14,4 @@ def test_prep_tile():
     expected = [0, 0, 0, 0, 0]
     for color in [BLUE, YELLOW, WHITE]:
         expected[LABELS.index(color)] = 1
-    assert(actual == expected)
+    assert actual == expected

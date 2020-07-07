@@ -3,7 +3,7 @@ import torch
 from torch import nn
 from fastai.layers import CrossEntropyFlat
 
-from ..loss_custom import WeakCrossEntropy
+from ..loss_custom import WeakCrossEntropy, get_colors_for_image
 
 
 def test_cross_entropy():
@@ -87,3 +87,8 @@ def test_weak_cross_entropy_one_color_wrong():
     loss = WeakCrossEntropy(axis=1)
     value = loss(predictions, ys)
     assert value == np.inf
+
+def test_get_colors_for_image():
+    actual = get_colors_for_image('11001')
+    expected = [0,1,4], [2,3]
+    assert actual == expected

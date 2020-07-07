@@ -1,5 +1,6 @@
 from typing import Tuple, List
 
+import numpy as np
 import torch
 
 
@@ -11,16 +12,11 @@ def get_colors_for_image(label_vector: str) -> Tuple[List[int]]:
         colors_y_1 = [0,1,4]
         colors_y_0 = [2,3]
     """
-    colors_y_1 = []
-    colors_y_0 = []
-    for i, character in enumerate(label_vector): # TODO remove loop, use masks
-        if character == '1':
-            colors_y_1.append(i)
-        elif character == '0':
-            colors_y_0.append(i)
-        else:
-            raise Exception("Unknown char:", character)
-    return colors_y_1, colors_y_0
+    label_vector_arr = np.array(list(map(int,label_vector)))  # array([1, 1, 0, 0, 1])
+
+    colors_y_1 = np.where(label_vector_arr == 1)[0]
+    colors_y_0 = np.where(label_vector_arr == 0)[0]
+    return list(colors_y_1), list(colors_y_0)
 
 
 class WeakCrossEntropy():

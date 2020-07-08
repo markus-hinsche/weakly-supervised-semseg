@@ -31,14 +31,14 @@ class WeakCrossEntropy():
     def __call__(self, input, target):
         """
         input  # shape(bs,ncolors,width,height)
-        target = ['11001', '00011', ...]
-        """
 
-        target = [self.codes[t_cat] for t_cat in target]
+        target = tensor([[1., 1., 1., 1., 1.],
+                         [1., 1., 1., 1., 0.]])
+
+        """
         assert len(input.shape) == 4
-#         assert len(target.shape) == 1  # vector of categories
         bs, ncolors, width, height = input.shape
-        assert len(target) == bs, (len(target), bs)
+        assert target.shape == (bs, ncolors)
 
         # assert: prediction have gone through softmax
         input = input.softmax(dim=1)

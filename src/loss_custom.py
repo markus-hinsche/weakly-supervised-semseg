@@ -22,7 +22,6 @@ def get_colors_for_image(label_vector_arr: np.array) -> Tuple[np.array]:
 
 
 class WeakCrossEntropy():
-    """Assumes that predictions have gone through a SoftmaxLayer"""
     def __init__(self, codes, axis=1):
         self.axis = axis
         assert axis == 1
@@ -42,6 +41,7 @@ class WeakCrossEntropy():
         assert len(target) == bs, (len(target), bs)
 
         # assert: prediction have gone through softmax
+        input = input.softmax(dim=1)
         assert torch.isclose(input.sum(dim=1), self.one_tensor).all()
 
         # flatten the input
@@ -51,8 +51,8 @@ class WeakCrossEntropy():
         # Problem: multiple colors_y_1 lists have different shapes
         # For now, have a little for loop running over samples in the batch
 
-        sums_prob_y_1 = torch.empty(bs, width*height)
-        sums_prob_y_0 = torch.empty(bs, width*height)
+        sums_prob_y_1 = torch.empty(bs, width*height).to(device)
+        sums_prob_y_0 = torch.empty(bs, width*height).to(device)
 
         for batch_idx in range(bs):
             # Get target indexes

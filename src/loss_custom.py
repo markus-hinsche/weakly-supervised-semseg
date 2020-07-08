@@ -34,19 +34,10 @@ class WeakCrossEntropy():
         # flatten the input
         input = input.reshape(bs, ncolors, -1)  # shape(bs, ncolors, width*height)
 
-        # multi indexing ?
-        # Problem: multiple colors_y_1 lists have different shapes
-        # For now, have a little for loop running over samples in the batch
+        target_mask = target.repeat(width*height, 1, 1).transpose(0, 1).transpose(1,2)
 
-        sums_prob_y_1 = torch.empty(bs, width*height).to(device)
-        sums_prob_y_0 = torch.empty(bs, width*height).to(device)
-
-        for batch_idx in range(bs):
-            target_mask = target[batch_idx].repeat(width*height, 1).transpose(0, 1)
-            sums_prob_y_1[batch_idx] = (input[batch_idx]*target_mask).sum(axis=0)
-
+        sums_prob_y_1 = (input*target_mask).sum(axis=1)  # shape (bs, width*height, )
         item_losses = sums_prob_y_1.log() * -1.0  # shape (bs, width*height, )
-        # (1 - sum_prob_y_0).log() * -1.0  # same as item_losses due to assert
 
         assert item_losses.shape == (bs, width*height)
         return item_losses.mean()

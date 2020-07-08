@@ -16,7 +16,7 @@ def get_colors_for_image(label_vector: str) -> Tuple[List[int]]:
 
     colors_y_1 = np.where(label_vector_arr == 1)[0]
     colors_y_0 = np.where(label_vector_arr == 0)[0]
-    return list(colors_y_1), list(colors_y_0)
+    return list(colors_y_1), list(colors_y_0)  # TODO return arrays/tensors instead
 
 
 class WeakCrossEntropy():
@@ -42,15 +42,24 @@ class WeakCrossEntropy():
         # flatten the input
         input = input.reshape(bs, ncolors, -1)  # shape(bs, ncolors, width*height)
 
-        # Get target indexes
-        colors_y_1, colors_y_0 = get_colors_for_image(target[0])  # TODO do for bs
-        sum_prob_y_1 = input[0][colors_y_1].sum(axis=0)
-        sum_prob_y_0 = input[0][colors_y_0].sum(axis=0)
+        # multi indexing ?
+        # Problem: multiple colors_y_1 lists have different shapes
+        # For now, have a little for loop running over samples in the batch
 
-        assert torch.isclose(sum_prob_y_1 + sum_prob_y_0, torch.Tensor([1.])).all()
+        sums_prob_y_1 = torch.empty(bs, width*height)
+        sums_prob_y_0 = torch.empty(bs, width*height)
 
-        item_losses = sum_prob_y_1.log() * -1.0
+        for batch_idx in range(bs):
+            # Get target indexes
+            colors_y_1, colors_y_0 = get_colors_for_image(target[batch_idx])
+
+            sums_prob_y_1[batch_idx] = input[batch_idx][colors_y_1].sum(axis=0)
+            sums_prob_y_0[batch_idx] = input[batch_idx][colors_y_0].sum(axis=0)
+
+        assert torch.isclose(sums_prob_y_1 + sums_prob_y_0, torch.Tensor([1.])).all()
+
+        item_losses = sums_prob_y_1.log() * -1.0  # shape (bs, width*height, )
         # (1 - sum_prob_y_0).log() * -1.0  # same as item_losses due to assert
 
-        assert item_losses.shape[0] == width*height  # * bs ?
+        assert item_losses.shape == (bs, width*height)
         return item_losses.mean()

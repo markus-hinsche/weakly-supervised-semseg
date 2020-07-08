@@ -4,7 +4,7 @@ import numpy as np
 import torch
 
 
-def get_colors_for_image(label_vector: str) -> Tuple[List[int]]:
+def get_colors_for_image(label_vector: str) -> Tuple[np.array]:
     """
     label_vector:
         '11001'
@@ -16,7 +16,7 @@ def get_colors_for_image(label_vector: str) -> Tuple[List[int]]:
 
     colors_y_1 = np.where(label_vector_arr == 1)[0]
     colors_y_0 = np.where(label_vector_arr == 0)[0]
-    return list(colors_y_1), list(colors_y_0)  # TODO return arrays/tensors instead
+    return colors_y_1, colors_y_0  # TODO speed-optimization: return only one part of the tuple
 
 
 class WeakCrossEntropy():

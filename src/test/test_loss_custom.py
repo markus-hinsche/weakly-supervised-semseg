@@ -90,5 +90,6 @@ def test_weak_cross_entropy_one_color_wrong():
 
 def test_get_colors_for_image():
     actual = get_colors_for_image('11001')
-    expected = [0,1,4], [2,3]
-    assert actual == expected
+    expected = np.array([0,1,4]), np.array([2,3])
+    assert np.all(actual[0] == expected[0])
+    assert np.all(actual[1] == expected[1])

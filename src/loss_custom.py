@@ -8,18 +8,16 @@ use_cuda = torch.cuda.is_available()
 device = torch.device("cuda" if use_cuda else "cpu")
 
 
-def get_colors_for_image(label_vector: str) -> Tuple[np.array]:
+
+def get_colors_for_image(label_vector_arr: np.array) -> Tuple[np.array]:
     """
-    label_vector:
-        '11001'
+    label_vector_arr: torch.tensor([1, 1, 0, 0, 1])
     output:
         colors_y_1 = [0,1,4]
         colors_y_0 = [2,3]
     """
-    label_vector_arr = np.array(list(map(int,label_vector)))  # array([1, 1, 0, 0, 1])
-
-    colors_y_1 = np.where(label_vector_arr == 1)[0]
-    colors_y_0 = np.where(label_vector_arr == 0)[0]
+    colors_y_1 = torch.where(label_vector_arr == 1)[0]
+    colors_y_0 = torch.where(label_vector_arr == 0)[0]
     return colors_y_1, colors_y_0  # TODO speed-optimization: return only one part of the tuple
 
 

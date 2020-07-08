@@ -91,7 +91,8 @@ def test_weak_cross_entropy_one_color_wrong():
     assert value == np.inf
 
 def test_get_colors_for_image():
-    actual = get_colors_for_image('11001')
-    expected = np.array([0,1,4]), np.array([2,3])
-    assert np.all(actual[0] == expected[0])
-    assert np.all(actual[1] == expected[1])
+    label_vector_arr = torch.tensor([1, 1, 0, 0, 1])
+    actual = get_colors_for_image(label_vector_arr)
+    expected = torch.tensor([0,1,4]), torch.tensor([2,3])
+    assert (actual[0] == expected[0]).all()
+    assert (actual[1] == expected[1]).all()

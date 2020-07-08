@@ -27,8 +27,8 @@ class WeakCrossEntropy():
 
     def __call__(self, input, target):
         """
-        input  # shape(ncolors,width,height)
-        target = '11001'
+        input  # shape(bs,ncolors,width,height)
+        target = ['11001', '00011', ...]
         """
 
         assert len(input.shape) == 4

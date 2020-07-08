@@ -4,7 +4,10 @@ from torch import nn
 from fastai.layers import CrossEntropyFlat
 
 from ..loss_custom import WeakCrossEntropy, get_colors_for_image
+from ..config import CODES
 
+code2class = {code: i for i, code in enumerate(CODES)}
+codes2classes = lambda x: [code2class[item] for item in x]
 
 def test_cross_entropy():
     n_classes = 5
@@ -32,9 +35,8 @@ def test_weak_cross_entropy_basic():
     # apply Softmax along the ncolors dimension
     predictions = nn.Softmax(dim=1)(predictions)
 
-    ys = ['11001', '01001']
-
-    loss = WeakCrossEntropy(axis=1)
+    ys = codes2classes(['11001', '01001'])
+    loss = WeakCrossEntropy(CODES, axis=1)
     value = loss(predictions, ys)
     assert value > 0
 
@@ -48,9 +50,9 @@ def test_weak_cross_entropy_all_classes():
     # apply Softmax along the ncolors dimension
     predictions = nn.Softmax(dim=1)(predictions)
 
-    ys = ['11111', '11111']
+    ys = codes2classes(['11111', '11111'])
 
-    loss = WeakCrossEntropy(axis=1)
+    loss = WeakCrossEntropy(CODES, axis=1)
     value = loss(predictions, ys)
     assert torch.isclose(value, torch.Tensor([0.]))
 
@@ -65,9 +67,9 @@ def test_weak_cross_entropy_one_color_correct():
     predictions = torch.zeros(bs, n_classes, width, height, dtype=torch.float32)  # same shape as images
     predictions[:, 3, :, :] = 1
 
-    ys = ['00010', '10010']
+    ys = codes2classes(['00010', '10010'])
 
-    loss = WeakCrossEntropy(axis=1)
+    loss = WeakCrossEntropy(CODES, axis=1)
     value = loss(predictions, ys)
     assert value == 0.
 
@@ -82,9 +84,9 @@ def test_weak_cross_entropy_one_color_wrong():
     predictions = torch.zeros(bs, n_classes, width, height, dtype=torch.float32)  # same shape as images
     predictions[:, 1, :, :] = 1
 
-    ys = ['00010', '00010']
+    ys = codes2classes(['00010', '00010'])
 
-    loss = WeakCrossEntropy(axis=1)
+    loss = WeakCrossEntropy(CODES, axis=1)
     value = loss(predictions, ys)
     assert value == np.inf
 

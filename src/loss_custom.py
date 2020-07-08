@@ -4,6 +4,10 @@ import numpy as np
 import torch
 
 
+use_cuda = torch.cuda.is_available()
+device = torch.device("cuda" if use_cuda else "cpu")
+
+
 def get_colors_for_image(label_vector: str) -> Tuple[np.array]:
     """
     label_vector:
@@ -21,9 +25,11 @@ def get_colors_for_image(label_vector: str) -> Tuple[np.array]:
 
 class WeakCrossEntropy():
     """Assumes that predictions have gone through a SoftmaxLayer"""
-    def __init__(self, axis=1):
+    def __init__(self, codes, axis=1):
         self.axis = axis
         assert axis == 1
+        self.codes = codes
+        self.one_tensor = torch.Tensor([1.]).to(device)
 
     def __call__(self, input, target):
         """
@@ -31,13 +37,14 @@ class WeakCrossEntropy():
         target = ['11001', '00011', ...]
         """
 
+        target = [self.codes[t_cat] for t_cat in target]
         assert len(input.shape) == 4
 #         assert len(target.shape) == 1  # vector of categories
         bs, ncolors, width, height = input.shape
         assert len(target) == bs, (len(target), bs)
 
         # assert: prediction have gone through softmax
-        assert torch.isclose(input.sum(dim=1), torch.Tensor([1.])).all()
+        assert torch.isclose(input.sum(dim=1), self.one_tensor).all()
 
         # flatten the input
         input = input.reshape(bs, ncolors, -1)  # shape(bs, ncolors, width*height)
@@ -56,7 +63,7 @@ class WeakCrossEntropy():
             sums_prob_y_1[batch_idx] = input[batch_idx][colors_y_1].sum(axis=0)
             sums_prob_y_0[batch_idx] = input[batch_idx][colors_y_0].sum(axis=0)
 
-        assert torch.isclose(sums_prob_y_1 + sums_prob_y_0, torch.Tensor([1.])).all()
+        assert torch.isclose(sums_prob_y_1 + sums_prob_y_0, self.one_tensor).all()
 
         item_losses = sums_prob_y_1.log() * -1.0  # shape (bs, width*height, )
         # (1 - sum_prob_y_0).log() * -1.0  # same as item_losses due to assert

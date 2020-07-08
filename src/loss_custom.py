@@ -42,7 +42,7 @@ class WeakCrossEntropy():
 
         # assert: prediction have gone through softmax
         input = input.softmax(dim=1)
-        assert torch.isclose(input.sum(dim=1), self.one_tensor).all()
+        assert torch.isclose(input.sum(dim=1), self.one_tensor).all(), input.sum(dim=1)
 
         # flatten the input
         input = input.reshape(bs, ncolors, -1)  # shape(bs, ncolors, width*height)

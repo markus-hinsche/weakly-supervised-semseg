@@ -3,7 +3,7 @@ import torch
 from torch import nn
 from fastai.layers import CrossEntropyFlat
 
-from ..loss_custom import WeakCrossEntropy, get_colors_for_image
+from ..loss_custom import WeakCrossEntropy
 from ..config import CODES
 
 code2class = {code: i for i, code in enumerate(CODES)}
@@ -94,10 +94,3 @@ def test_weak_cross_entropy_one_color_wrong():
 
     # Assert big loss
     assert value > 1.8
-
-def test_get_colors_for_image():
-    label_vector_arr = torch.tensor([1,1,0,0,1])
-    actual = get_colors_for_image(label_vector_arr)
-    expected = torch.tensor([0,1,4]), torch.tensor([2,3])
-    assert (actual[0] == expected[0]).all()
-    assert (actual[1] == expected[1]).all()

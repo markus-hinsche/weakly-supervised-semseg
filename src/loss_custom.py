@@ -8,19 +8,6 @@ use_cuda = torch.cuda.is_available()
 device = torch.device("cuda" if use_cuda else "cpu")
 
 
-
-def get_colors_for_image(label_vector_arr: np.array) -> Tuple[np.array]:
-    """
-    label_vector_arr: torch.tensor([1, 1, 0, 0, 1])
-    output:
-        colors_y_1 = [0,1,4]
-        colors_y_0 = [2,3]
-    """
-    colors_y_1 = torch.where(label_vector_arr == 1)[0]
-    colors_y_0 = torch.where(label_vector_arr == 0)[0]
-    return colors_y_1, colors_y_0  # TODO speed-optimization: return only one part of the tuple
-
-
 class WeakCrossEntropy():
     def __init__(self, codes, axis=1):
         self.axis = axis
@@ -55,13 +42,8 @@ class WeakCrossEntropy():
         sums_prob_y_0 = torch.empty(bs, width*height).to(device)
 
         for batch_idx in range(bs):
-            # Get target indexes
-            colors_y_1, colors_y_0 = get_colors_for_image(target[batch_idx])
-
-            sums_prob_y_1[batch_idx] = input[batch_idx][colors_y_1].sum(axis=0)
-            sums_prob_y_0[batch_idx] = input[batch_idx][colors_y_0].sum(axis=0)
-
-        assert torch.isclose(sums_prob_y_1 + sums_prob_y_0, self.one_tensor).all()
+            target_mask = target[batch_idx].repeat(width*height, 1).transpose(0, 1)
+            sums_prob_y_1[batch_idx] = (input[batch_idx]*target_mask).sum(axis=0)
 
         item_losses = sums_prob_y_1.log() * -1.0  # shape (bs, width*height, )
         # (1 - sum_prob_y_0).log() * -1.0  # same as item_losses due to assert

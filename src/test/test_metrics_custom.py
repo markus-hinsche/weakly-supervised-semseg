@@ -1,6 +1,6 @@
 import torch
 
-from ..loss_custom import acc_weakly
+from ..metrics_custom import acc_weakly
 from ..config import CODES
 
 

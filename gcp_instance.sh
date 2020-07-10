@@ -5,8 +5,8 @@
 set -euox pipefail
 
 export IMAGE_FAMILY="pytorch-latest-gpu"
-export ZONE="europe-west1-b"
-export INSTANCE_NAME="weakly-supervised-semseg"
+export ZONE="europe-west1-d"
+export INSTANCE_NAME="weakly-supervised-semseg2"
 export INSTANCE_TYPE="n1-highmem-8"
 
 gcloud compute instances create $INSTANCE_NAME \
@@ -18,8 +18,7 @@ gcloud compute instances create $INSTANCE_NAME \
         --machine-type=$INSTANCE_TYPE \
         --boot-disk-type=pd-ssd \
         --boot-disk-size=200GB \
-        --metadata="install-nvidia-driver=True" \
-        --preemptible
+        --metadata="install-nvidia-driver=True"
 
 gcloud compute ssh --zone=$ZONE jupyter@$INSTANCE_NAME -- -L 8080:localhost:8080
 

@@ -1,3 +1,5 @@
+"""Takes 3 channel RGB masks and translates them into 1 channel images where a pixel value is encoded by `0`, `1`, `2`, `3`, ..., `n_colors`"""
+
 import os
 from pathlib import Path
 
@@ -27,15 +29,10 @@ def convert_image(fpath, out_fpath):
 
 if __name__ == "__main__":
 
-    # src_dir = GT_DIR
-    # dest_dir = GT_ADJ_DIR
-
     src_dir = GT_TILES_DIR
     dest_dir = GT_ADJ_TILES_DIR
 
     for fname in os.listdir(src_dir):
-    # fname = os.listdir(src_dir)[0]
-
         fpath = Path(src_dir) / fname
         out_fpath = Path(dest_dir) / fname
         convert_image(fpath, out_fpath)

@@ -23,3 +23,5 @@ if __name__ == "__main__":
     pprint(N1)
     pprint(N2)
     pprint(N3)
+
+    # Find results in config.py

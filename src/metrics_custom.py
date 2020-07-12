@@ -28,5 +28,4 @@ def acc_weakly(input, target):
             if target[batch_idx][i] == 0:
                 continue
             mat[batch_idx][input[batch_idx]==i] = 1
-    # print(mat)
     return mat.float().mean()

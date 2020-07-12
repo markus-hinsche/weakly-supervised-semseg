@@ -1,5 +1,21 @@
 # Weakly Supervised Semantic Segmentation
 
+## Setup
+
+### Local
+
+Create new python environment. Then:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Cloud (GCP)
+
+```bash
+./gcp_instance.sh
+```
+
 ## Data
 
 Find the data here:
@@ -14,9 +30,25 @@ Labels are supplied with 1 class per pixel, as follows:
 5. Car - YELLOW
 6. Clutter/background - RED
 
+### Data preprocessing
+
+`src/split_to_tiles.py`: Cuts 33 high-resultion images into 4497 200x200 tiles.
+
+`src/prep_tiles.py`: Creates weakly-supervised tile-level annotations.
+
+`src/split_sets.py`: Creates the N1, N2, N_validation split (randomly), see `src/config.py` for the resulting split.
+
+`src/mask_conversion.py`: Takes 3 channel RGB masks and translates them into 1 channel images where a pixel value is encoded by `0`, `1`, `2`, `3`, ..., `n_colors`
+
 ## Project
 
 Weakly supervised learning with some fully supervised (pixel-level) annotations.
+
+`src/fully-supervised-semseg.ipynb`: Fully-supervised (FS) training on N1
+
+`src/weakly-supervised-semseg.ipynb`: Weakly-supervised (WS) training on N2
+
+`src/mixed-supervision-semseg.ipynb`: Combine FS and WS to try to improve the performance of the semantic segmentation task.
 
 ## Run unit tests
 

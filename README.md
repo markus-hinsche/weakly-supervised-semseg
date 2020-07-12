@@ -4,7 +4,7 @@
 
 ### Local
 
-Create new python environment. Then:
+Create new python virtual environment. Then:
 
 ```bash
 pip install -r requirements.txt
@@ -18,8 +18,7 @@ pip install -r requirements.txt
 
 ## Data
 
-Find the data here:
-[​ISPRS Vaihingen dataset​](http://www2.isprs.org/commissions/comm3/wg4/2d-sem-label-vaihingen.html)
+Find the data here: [​ISPRS Vaihingen dataset​](http://www2.isprs.org/commissions/comm3/wg4/2d-sem-label-vaihingen.html)
 
 There are 33 high-resolution (approx 1500x2000px) aerial images of the town of Vaihingen, Germany.
 Labels are supplied with 1 class per pixel, as follows:
@@ -49,6 +48,10 @@ Weakly supervised learning with some fully supervised (pixel-level) annotations.
 [src/weakly-supervised-semseg.ipynb](src/weakly-supervised-semseg.ipynb): Weakly-supervised (WS) training on N2
 
 [src/mixed-supervision-semseg.ipynb](src/mixed-supervision-semseg.ipynb): Combine FS and WS to try to improve the performance of the semantic segmentation task.
+
+## Results
+
+See [results.md](results.md)
 
 ## Run unit tests
 

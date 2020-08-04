@@ -25,7 +25,8 @@ Labels are supplied with 1 class per pixel, as follows:
 
 1. Impervious surfaces - WHITE
 2. Building - BLUE
-3. Low vegetation - TURQUOISE 4. Tree - GREEN
+3. Low vegetation - TURQUOISE 
+4. Tree - GREEN
 5. Car - YELLOW
 6. Clutter/background - RED
 

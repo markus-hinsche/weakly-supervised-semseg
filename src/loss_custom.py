@@ -23,9 +23,10 @@ class WeakCrossEntropy():
 
     def __call__(self, input_orig, target):
         """
-        input: predictions of shape (bs,ncolors,width,height)
+        input_orig: predictions of shape (bs,ncolors,width,height)
 
-        target: Example tensor([[1., 1., 1., 1., 1.],
+        target: of shape (bs, ncolors)
+                Example tensor([[1., 1., 1., 1., 1.],
                                 [1., 1., 1., 1., 0.]])
         """
         assert len(input_orig.shape) == 4

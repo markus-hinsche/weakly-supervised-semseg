@@ -5,6 +5,7 @@ from pathlib import Path
 import re
 
 import torch
+from fastai.vision.image import ImageSegment
 
 from config import (IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR,
                     GT_ADJ_TILES_DIR, TILES_DIR,
@@ -48,6 +49,12 @@ is_in_set_nvalidation = partial(_is_in_set, N=N_validation)
 is_in_set_n1_or_nvalidation = partial(_is_in_set, N=N1+N_validation)
 is_in_set_n2_or_nvalidation = partial(_is_in_set, N=N2+N_validation)
 
+# TODO test regex:
+# # # Example: top_mosaic_09cm_area27_tile154_11100.tif
+# fpath = BASE_DIR / TILES_DIR / fname
+# result = get_y_fn(fpath)
+# type(result), result
+
 
 def get_y_fn(x):
     return BASE_DIR / GT_ADJ_TILES_DIR / x.name
@@ -76,11 +83,14 @@ def has_a_valid_color(x):
         return False
     return True
 
-def show_prediction_vs_actual(sample_idx, pred, y):
-    sample_pred = pred[sample_idx].argmax(dim=0, keepdim=True)  # shape (1, 100, 100)
-    pred_image_segment = ImageSegment(sample_pred)
-    print("label" + str(y[sample_idx]))
-    print("prediction: ")
-    pred_image_segment.show()
-    print("actual: ")
-    data.valid_ds.x[sample_idx].show()
+def show_prediction_vs_actual(sample_idx, learn):
+    """Return predicted mask, additionally print input image and tile-level label"""
+    sample = learn.data.valid_ds[sample_idx]
+    image, label = sample
+    print(label.__repr__())
+    image.show()
+    batch = learn.data.one_item(image)
+    pred = learn.pred_batch(batch=batch).squeeze(dim=0)  #  torch.Size([5, 100, 100])
+    img = pred.argmax(dim=0, keepdim=True) #  torch.Size([1, 100, 100])
+    image_segment = ImageSegment(img)
+    return image_segment

@@ -4,7 +4,7 @@ from pathlib import Path
 
 BASE_DIR = Path('').absolute().parent
 
-MODEL_DIR = 'data/models/'
+MODEL_DIR = BASE_DIR / 'data' / 'models'
 
 IMAGE_DATA_DIR = "data/ISPRS_semantic_labeling_Vaihingen/top/"  # file e.g. top_mosaic_09cm_area1.tif
 GT_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE/"  # file e.g. top_mosaic_09cm_area1.tif  # 3 channel GT

@@ -1,3 +1,4 @@
+# https://docs.fast.ai/dev/test.html#getting-reproducible-results
 
 def set_seed(seed=42):
     # python RNG

@@ -1,5 +1,9 @@
 from typing import List
 
+from pathlib import Path
+
+BASE_DIR = Path('').absolute().parent
+
 MODEL_DIR = 'data/models/'
 
 IMAGE_DATA_DIR = "data/ISPRS_semantic_labeling_Vaihingen/top/"  # file e.g. top_mosaic_09cm_area1.tif

@@ -75,3 +75,12 @@ def has_a_valid_color(x):
     if not (0<len(indexes)<6):
         return False
     return True
+
+def show_prediction_vs_actual(sample_idx, pred, y):
+    sample_pred = pred[sample_idx].argmax(dim=0, keepdim=True)  # shape (1, 100, 100)
+    pred_image_segment = ImageSegment(sample_pred)
+    print("label" + str(y[sample_idx]))
+    print("prediction: ")
+    pred_image_segment.show()
+    print("actual: ")
+    data.valid_ds.x[sample_idx].show()

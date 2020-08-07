@@ -1,5 +1,7 @@
 from typing import List
 
+MODEL_DIR = 'data/models/'
+
 IMAGE_DATA_DIR = "data/ISPRS_semantic_labeling_Vaihingen/top/"  # file e.g. top_mosaic_09cm_area1.tif
 GT_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE/"  # file e.g. top_mosaic_09cm_area1.tif  # 3 channel GT
 GT_ADJ_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE_ADJ/"  # file e.g. top_mosaic_09cm_area1.tif  # 1 channel GT

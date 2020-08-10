@@ -4,7 +4,7 @@ import os
 from PIL import Image
 from pathlib import Path
 
-from .config import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, HEIGHT_TILE, WIDTH_TILE
+from src.config import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, HEIGHT_TILE, WIDTH_TILE
 
 # Inspired by https://stackoverflow.com/a/7051075/5497962
 def crop(input: str, output_pattern: str, height: int, width: int):

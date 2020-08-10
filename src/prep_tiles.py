@@ -14,7 +14,7 @@ from PIL import Image
 from pathlib import Path
 import shutil
 
-from .config import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, TILES_DIR, LABELS, RED, BLACK
+from src.config import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, TILES_DIR, LABELS, RED, BLACK
 
 
 def image_to_label(fpath_gt_tile):

@@ -3,7 +3,7 @@ from pprint import pprint
 import os
 from pathlib import Path
 
-from .config import IMAGE_DATA_DIR
+from src.config import IMAGE_DATA_DIR
 
 random.seed(42)
 

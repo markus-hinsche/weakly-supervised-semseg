@@ -3,15 +3,16 @@
 from functools import partial
 from pathlib import Path
 import re
+from typing import List, Tuple
 
 import torch
 from fastai.vision.image import ImageSegment
 
-from config import (IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR,
-                    GT_ADJ_TILES_DIR, TILES_DIR,
-                    LABELS, RED, BLACK, N1, N2, N_validation, MODEL_DIR,
-                    BASE_DIR
-                   )
+from .config import (IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR,
+                     GT_ADJ_TILES_DIR, TILES_DIR,
+                     LABELS, RED, BLACK, N1, N2, N_validation, MODEL_DIR,
+                     BASE_DIR
+                    )
 
 
 def set_seed(seed=42):
@@ -59,11 +60,23 @@ is_in_set_n2_or_nvalidation = partial(_is_in_set, N=N2+N_validation)
 def get_y_fn(x):
     return BASE_DIR / GT_ADJ_TILES_DIR / x.name
 
-def get_y_colors(x):
+def get_y_colors(x: Path) -> List[Tuple[int, int, int]]:
+    """Read the filename which contains the label vector
+
+    The label vector is a 5 digit number (e.g. 11001) describing which
+    colors are contained in the entire image
+
+    Args:
+        x: Posix path of the tile's image file
+
+    Returns:
+        colors
+        Example: [(255, 255, 255), (0, 0, 255), (255, 255, 0)]
+    """
     fname = x.name
     match_result = REGEX_IMG_FILE_NAME_WITH_LABEL_VECTOR.search(fname)
     label_vector = match_result.group('label_vector')
-    label_vector_arr = torch.tensor(list(map(int,label_vector))) # NEW
+    label_vector_arr = torch.tensor(list(map(int,label_vector)))
 
     indexes = torch.where(label_vector_arr == 1)[0]
     colors = [LABELS[idx] for idx in indexes]

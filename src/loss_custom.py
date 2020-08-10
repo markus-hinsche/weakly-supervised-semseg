@@ -13,7 +13,8 @@ device = torch.device("cuda" if use_cuda else "cpu")
 class WeakCrossEntropy():
     """Cross Entropy for semantically segmented images based on weak labels.
 
-    Weak labels are vector of color flags. Each flags represents whether a certain color exists in the image or not.
+    Weak labels are vector of color flags.
+    Each flags represents whether a certain color exists in the image or not.
     """
     def __init__(self, codes, axis=1):
         self.axis = axis
@@ -29,9 +30,13 @@ class WeakCrossEntropy():
                 Example tensor([[1., 1., 1., 1., 1.],
                                 [1., 1., 1., 1., 0.]])
         """
-        assert len(input_orig.shape) == 4
         bs, ncolors, width, height = input_orig.shape
-        assert target.shape == (bs, ncolors)
+        assert target.shape[0] == bs
+
+        ncolors_in_target = target.shape[1]
+        if ncolors_in_target != ncolors:
+            target_to_concat = torch.tensor(bs, ncolors - ncolors_in_target)
+            target = torch.cat((target, target_to_concat), dim=1)
 
         input = input_orig.softmax(dim=1)
 

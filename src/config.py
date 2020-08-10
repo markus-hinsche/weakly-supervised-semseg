@@ -2,7 +2,7 @@ from typing import List
 
 from pathlib import Path
 
-BASE_DIR = Path('').absolute().parent
+BASE_DIR = Path(__file__).parents[1].absolute()
 
 MODEL_DIR = BASE_DIR / 'data' / 'models'
 
@@ -18,13 +18,14 @@ TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen/top_weaklabel_tiles/"  # fil
 HEIGHT_TILE = 200
 WIDTH_TILE = 200
 
-WHITE = (255, 255, 255)
-BLUE = (0, 0, 255)
-TURQUOISE = (0, 255, 255)
-GREEN = (0, 255, 0)
-YELLOW = (255, 255, 0)
-RED = (255, 0, 0)  # outlier: ignore
-BLACK = (0, 0, 0)  # leftover pieces: ignore
+# Meanings according to http://www2.isprs.org/commissions/comm3/wg4/semantic-labeling.html
+WHITE = (255, 255, 255)  # Impervious surfaces
+BLUE = (0, 0, 255)  # Building
+TURQUOISE = (0, 255, 255)  # Low vegetation
+GREEN = (0, 255, 0)  # Tree
+YELLOW = (255, 255, 0)  # Car
+RED = (255, 0, 0)  # Clutter/Background
+BLACK = (0, 0, 0)  # leftover waste/bleed where tiles where cut but didn't fill a complete tile: ignore
 
 LABELS = [
     WHITE,

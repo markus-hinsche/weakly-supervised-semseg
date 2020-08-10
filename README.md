@@ -25,7 +25,7 @@ Labels are supplied with 1 class per pixel, as follows:
 
 1. Impervious surfaces - WHITE
 2. Building - BLUE
-3. Low vegetation - TURQUOISE 
+3. Low vegetation - TURQUOISE
 4. Tree - GREEN
 5. Car - YELLOW
 6. Clutter/background - RED
@@ -50,9 +50,9 @@ Weakly supervised learning with some fully supervised (pixel-level) annotations.
 
 [src/mixed-supervision-semseg.ipynb](src/mixed-supervision-semseg.ipynb): Combine FS and WS to try to improve the performance of the semantic segmentation task.
 
-## Results
+## Report and Results
 
-See [results.md](results.md)
+See <report.md>
 
 ## Run unit tests
 

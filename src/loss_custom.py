@@ -44,7 +44,7 @@ class WeakCrossEntropy():
         input = input.reshape(bs, ncolors, -1)  # shape (bs, ncolors, width*height)
 
         if torch.isnan(input).any():
-            print("input is nan: ", input)
+            raise Exception("input is nan: " + str(input))
 
         target_mask = target.repeat(width*height, 1, 1).transpose(0, 1).transpose(1,2)  # shape (bs, ncolors, width*height)
 
@@ -55,12 +55,12 @@ class WeakCrossEntropy():
 
         item_losses = sums_prob_y_1.log() * -1.0  # shape (bs, width*height)
 
-        assert item_losses.shape == (bs, width*height)
+        assert item_losses.shape == (bs, width * height)
         assert not torch.isinf(item_losses).any()
 
         loss = item_losses.mean()
 
-        if torch.isnan(loss).any():
-            print("loss is nan, ", sums_prob_y_1)
+        if torch.isnan(input).any():
+            raise Exception("loss is nan: " + str(sums_prob_y_1))
 
         return loss

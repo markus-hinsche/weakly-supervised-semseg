@@ -13,10 +13,8 @@ def convert_image(fpath, out_fpath):
     im = Image.open(fpath)
     im_array = np.asarray(im)
 
-    print(im_array.shape)
-
     output_array = np.ones(im_array.shape[:2]) * 255
-    print(output_array.shape)
+
     for i, color in enumerate(LABELS + [RED, BLACK]):
         mask = np.all(im_array == color, axis=-1)
         output_array[mask] = i

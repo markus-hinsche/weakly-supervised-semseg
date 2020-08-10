@@ -7,6 +7,7 @@ from typing import List, Tuple
 
 import torch
 from fastai.vision.image import ImageSegment
+from fastai.basic_train import Learner
 
 from .config import (IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR,
                      GT_ADJ_TILES_DIR, TILES_DIR,
@@ -15,8 +16,8 @@ from .config import (IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR,
                     )
 
 
-def set_seed(seed=42):
-    # python RNG
+def set_seed(seed: int=42):
+    # python RNG (random number generator)
     import random
     random.seed(seed)
 
@@ -34,7 +35,19 @@ IMG_FILE_PREFIX = "top_mosaic_09cm_area"
 REGEX_IMG_FILE_NAME = re.compile(fr"{IMG_FILE_PREFIX}(?P<area_id>\d+)_tile(?P<tile_id>\d+).tif")
 REGEX_IMG_FILE_NAME_WITH_LABEL_VECTOR = re.compile(IMG_FILE_PREFIX + r"(?P<area_id>\d+)_tile(?P<tile_id>\d+)_(?P<label_vector>\d{5}).tif")
 
-def _is_in_set(x, N, regex_obj):
+def _is_in_set(x: Path, N: List[str], regex_obj: re.Pattern) -> bool:
+    """Determine if in set.
+
+    Args:
+        x: Input posix path
+        N: The set of
+        Example: ['top_mosaic_09cm_area38.tif',
+                  'top_mosaic_09cm_area24.tif']
+        regex_obj (re.Pattern): A compiled regex
+
+    Returns:
+        bool: If in set or not
+    """
     fname = x.name  # e.g.: top_mosaic_09cm_area30_tile120.tif'
 
     match_result = regex_obj.search(fname)
@@ -50,14 +63,7 @@ is_in_set_nvalidation = partial(_is_in_set, N=N_validation)
 is_in_set_n1_or_nvalidation = partial(_is_in_set, N=N1+N_validation)
 is_in_set_n2_or_nvalidation = partial(_is_in_set, N=N2+N_validation)
 
-# TODO test regex:
-# # # Example: top_mosaic_09cm_area27_tile154_11100.tif
-# fpath = BASE_DIR / TILES_DIR / fname
-# result = get_y_fn(fpath)
-# type(result), result
-
-
-def get_y_fn(x):
+def get_y_fn(x: Path) -> str:
     return BASE_DIR / GT_ADJ_TILES_DIR / x.name
 
 def get_y_colors(x: Path) -> List[Tuple[int, int, int]]:
@@ -85,25 +91,25 @@ def get_y_colors(x: Path) -> List[Tuple[int, int, int]]:
 
     return colors
 
-def has_a_valid_color(x):
+def has_a_valid_color(x: Path) -> bool:
     fname = x.name
     match_result = REGEX_IMG_FILE_NAME_WITH_LABEL_VECTOR.search(fname)
     label_vector = match_result.group('label_vector')
-    label_vector_arr = torch.tensor(list(map(int,label_vector))) # NEW
+    label_vector_arr = torch.tensor(list(map(int,label_vector)))
 
     indexes = torch.where(label_vector_arr == 1)[0]
     if not (0<len(indexes)<6):
         return False
     return True
 
-def show_prediction_vs_actual(sample_idx, learn):
+def show_prediction_vs_actual(sample_idx: int, learn: Learner) -> ImageSegment:
     """Return predicted mask, additionally print input image and tile-level label"""
     sample = learn.data.valid_ds[sample_idx]
     image, label = sample
     print(label.__repr__())
     image.show()
     batch = learn.data.one_item(image)
-    pred = learn.pred_batch(batch=batch).squeeze(dim=0)  #  torch.Size([5, 100, 100])
-    img = pred.argmax(dim=0, keepdim=True) #  torch.Size([1, 100, 100])
+    pred = learn.pred_batch(batch=batch).squeeze(dim=0)
+    img = pred.argmax(dim=0, keepdim=True)
     image_segment = ImageSegment(img)
     return image_segment

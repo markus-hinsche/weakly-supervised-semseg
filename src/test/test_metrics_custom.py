@@ -41,3 +41,18 @@ def test_acc_weakly():
     accuracy = acc_weakly(predictions, ys)
 
     assert torch.isclose(accuracy, torch.Tensor([2/3]))
+
+def test_acc_weakly_with_7color_prediction():
+    n_classes = 7
+    bs = 2
+    width = 3
+    height = 3
+    predictions = torch.zeros(bs, n_classes, width, height, dtype=torch.float32)
+
+    predictions[:, 3, :, :] = 0.5
+    predictions[:, 1, 1, :] = 0.6
+
+    ys = torch.tensor([[0,1,0,1,0], [0,1,0,0,0]])
+    accuracy = acc_weakly(predictions, ys)
+
+    assert torch.isclose(accuracy, torch.Tensor([2/3]))

@@ -40,6 +40,12 @@ def acc_weakly(input: torch.tensor, target: List[int]) -> torch.tensor:
     """
     bs, ncolors, width, height = input.shape
     input_ = input.reshape(bs, ncolors, -1)
+
+    num_colors = 5
+    if ncolors > num_colors:
+        input_ = input_[:, 0:num_colors,:]
+        ncolors = num_colors
+
     input_ = input_.argmax(dim=1)  # shape: (bs, pixel)
 
     mat = torch.zeros(input_.shape).to(device)

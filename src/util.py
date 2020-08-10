@@ -106,10 +106,17 @@ def show_prediction_vs_actual(sample_idx: int, learn: Learner) -> ImageSegment:
     """Return predicted mask, additionally print input image and tile-level label"""
     sample = learn.data.valid_ds[sample_idx]
     image, label = sample
-    print(label.__repr__())
+    print("Label: " + str(label.__repr__()))
     image.show()
     batch = learn.data.one_item(image)
     pred = learn.pred_batch(batch=batch).squeeze(dim=0)
     img = pred.argmax(dim=0, keepdim=True)
+
+
+    predicted_colors = torch.zeros(len(LABELS+[RED, BLACK]))
+    for i in img.unique():
+        predicted_colors[i] = 1
+    print("Predicted colors: " + str(predicted_colors))
+
     image_segment = ImageSegment(img)
     return image_segment

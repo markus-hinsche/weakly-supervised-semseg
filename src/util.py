@@ -11,7 +11,7 @@ from fastai.basic_train import Learner
 
 from src.constants import (IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR,
                            GT_ADJ_TILES_DIR, TILES_DIR,
-                           LABELS, ALL_LABELS, N1, N2, N_validation, MODEL_DIR,
+                           CLASSES, ALL_CLASSES, N1, N2, N_validation, MODEL_DIR,
                            BASE_DIR
                           )
 
@@ -85,7 +85,7 @@ def get_y_colors(x: Path) -> List[Tuple[int, int, int]]:
     label_vector_arr = torch.tensor(list(map(int,label_vector)))
 
     indexes = torch.where(label_vector_arr == 1)[0]
-    colors = [LABELS[idx] for idx in indexes]
+    colors = [CLASSES[idx] for idx in indexes]
 
     assert 0<len(indexes)<6, (len(indexes), x)
 
@@ -112,7 +112,7 @@ def show_prediction_vs_actual(sample_idx: int, learn: Learner) -> ImageSegment:
     pred = learn.pred_batch(batch=batch).squeeze(dim=0)
     img = pred.argmax(dim=0, keepdim=True)
 
-    predicted_colors = torch.zeros(len(ALL_LABELS))
+    predicted_colors = torch.zeros(len(ALL_CLASSES))
     for i in img.unique():
         predicted_colors[i] = 1
     print("Predicted colors: " + str(predicted_colors))

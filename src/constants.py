@@ -27,14 +27,14 @@ YELLOW = (255, 255, 0)  # Car
 RED = (255, 0, 0)  # Clutter/Background
 BLACK = (0, 0, 0)  # leftover waste/bleed where tiles where cut but didn't fill a complete tile: ignore
 
-LABELS = [
+CLASSES = [
     WHITE,
     BLUE,
     TURQUOISE,
     GREEN,
     YELLOW,
 ]
-ALL_LABELS = LABELS + [RED, BLACK]
+ALL_CLASSES = CLASSES + [RED, BLACK]
 
 def _gen_combinations(s_list: List[str]) -> List[str]:
     l = []

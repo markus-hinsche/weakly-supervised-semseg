@@ -15,15 +15,15 @@ from PIL import Image
 from pathlib import Path
 import shutil
 
-from src.constants import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, TILES_DIR, LABELS, ALL_LABELS
+from src.constants import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, TILES_DIR, CLASSES, ALL_CLASSES
 
 
 def image_to_label(fpath_gt_tile):
     im = Image.open(fpath_gt_tile)
     distinct_pixel_values = set(im.getdata())
 
-    assert(distinct_pixel_values.issubset(ALL_LABELS))
-    label_vector = [int(color in distinct_pixel_values) for color in LABELS]
+    assert(distinct_pixel_values.issubset(ALL_CLASSES))
+    label_vector = [int(color in distinct_pixel_values) for color in CLASSES]
     return label_vector
 
 

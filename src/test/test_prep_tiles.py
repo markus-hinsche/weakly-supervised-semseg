@@ -4,7 +4,7 @@ import os, os.path
 from pathlib import Path
 
 from ..prep_tiles import image_to_label
-from ..constants import LABELS, BLUE, YELLOW, WHITE
+from ..constants import CLASSES, BLUE, YELLOW, WHITE
 
 
 def test_prep_tile():
@@ -13,5 +13,5 @@ def test_prep_tile():
 
     expected = [0, 0, 0, 0, 0]
     for color in [BLUE, YELLOW, WHITE]:
-        expected[LABELS.index(color)] = 1
+        expected[CLASSES.index(color)] = 1
     assert actual == expected

@@ -2,12 +2,12 @@ from typing import List
 
 import torch
 
-from src.constants import LABELS, RED, BLACK
+from src.constants import CLASSES, RED, BLACK
 
 use_cuda = torch.cuda.is_available()
 device = torch.device("cuda" if use_cuda else "cpu")
 
-name2id = {v:k for k,v in enumerate(LABELS+[RED, BLACK])}
+name2id = {v:k for k,v in enumerate(CLASSES+[RED, BLACK])}
 void_codes_red = name2id[RED]
 void_codes_black = name2id[BLACK]
 

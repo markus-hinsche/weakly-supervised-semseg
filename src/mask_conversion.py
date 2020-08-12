@@ -1,11 +1,14 @@
-"""Takes 3 channel RGB masks and translates them into 1 channel images where a pixel value is encoded by `0`, `1`, `2`, `3`, ..., `n_colors`"""
+"""
+Takes 3 channel RGB masks and translates them into 1 channel images
+where a pixel value is encoded by `0`, `1`, `2`, `3`, ..., `n_colors`
+"""
 
 import os
 from pathlib import Path
 
 from PIL import Image
 import numpy as np
-from src.constants import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, GT_ADJ_TILES_DIR, TILES_DIR, ALL_CLASSES, WHITE, GT_ADJ_DIR
+from src.constants import GT_TILES_DIR, GT_ADJ_TILES_DIR, ALL_CLASSES
 
 
 def convert_image(fpath, out_fpath):
@@ -19,7 +22,7 @@ def convert_image(fpath, out_fpath):
         output_array[mask] = i
 
     # Make sure all pixels got converted
-    assert np.all(output_array<10)
+    assert np.all(output_array < 10)
 
     im = Image.fromarray(output_array.astype(np.uint8), mode='L')
     im.save(out_fpath, "TIFF")

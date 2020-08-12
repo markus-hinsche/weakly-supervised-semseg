@@ -1,18 +1,16 @@
-from typing import List
-
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parents[1].absolute()
 MODEL_DIR = BASE_DIR / 'data' / 'models'
 
-IMAGE_DATA_DIR = "data/ISPRS_semantic_labeling_Vaihingen/top/"  # file e.g. top_mosaic_09cm_area1.tif
-GT_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE/"  # file e.g. top_mosaic_09cm_area1.tif  # 3 channel GT
-GT_ADJ_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE_ADJ/"  # file e.g. top_mosaic_09cm_area1.tif  # 1 channel GT
+IMAGE_DATA_DIR = "data/ISPRS_semantic_labeling_Vaihingen/top/"
+GT_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE/"  # contains 3 channel ground truth
+GT_ADJ_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE_ADJ/"  # contains 1 channel ground truth
 
-IMAGE_DATA_TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen/top_tiles/"  # file e.g. top_mosaic_09cm_area1_tile1.tif
-GT_TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE_tiles/"  # file e.g. top_mosaic_09cm_area1_tile1.tif  # 3 channel GT
-GT_ADJ_TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE_ADJ_tiles/"  # file e.g. top_mosaic_09cm_area1_tile1.tif  # 1 channel GT
-TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen/top_weaklabel_tiles/"  # file e.g. top_mosaic_09cm_area1_tile1_01100.tif
+IMAGE_DATA_TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen/top_tiles/"
+GT_TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE_tiles/"  # contains 3 channel GT
+GT_ADJ_TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE_ADJ_tiles/"  # contains 1 channel GT
+TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen/top_weaklabel_tiles/"
 
 # Meanings according to http://www2.isprs.org/commissions/comm3/wg4/semantic-labeling.html
 WHITE = (255, 255, 255)  # Impervious surfaces

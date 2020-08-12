@@ -1,6 +1,3 @@
-from typing import Tuple, List
-
-import numpy as np
 import torch
 
 THRESH_LOWER_CLIP_PROBS = 0.001
@@ -18,15 +15,15 @@ class WeakCrossEntropy():
         assert axis == 1
         self.one_tensor = torch.Tensor([1.]).to(DEVICE)
 
-    def __call__(self, input_orig, target):
+    def __call__(self, pred, target):
         """
-        input_orig: predictions of shape (bs,ncolors,width,height)
+        pred: predictions of shape (bs,ncolors,width,height)
 
         target: of shape (bs, ncolors)
                 Example tensor([[1., 1., 1., 1., 1.],
                                 [1., 1., 1., 1., 0.]])
         """
-        bs, ncolors, width, height = input_orig.shape
+        bs, ncolors, width, height = pred.shape
         assert target.shape[0] == bs
 
         ncolors_in_target = target.shape[1]
@@ -34,17 +31,17 @@ class WeakCrossEntropy():
             target_to_concat = torch.tensor(bs, ncolors - ncolors_in_target)
             target = torch.cat((target, target_to_concat), dim=1)
 
-        input = input_orig.softmax(dim=1)
+        pred_ = pred.softmax(dim=1)
 
         # Flatten the input
-        input = input.reshape(bs, ncolors, -1)  # shape (bs, ncolors, width*height)
+        pred_ = pred_.reshape(bs, ncolors, -1)  # shape (bs, ncolors, width*height)
 
-        if torch.isnan(input).any():
-            raise Exception("input is nan: " + str(input))
+        if torch.isnan(pred_).any():
+            raise Exception("input is nan: " + str(pred_))
 
-        target_mask = target.repeat(width*height, 1, 1).transpose(0, 1).transpose(1,2)  # shape (bs, ncolors, width*height)
+        target_mask = target.repeat(width * height, 1, 1).transpose(0, 1).transpose(1, 2)  # shape (bs, ncolors, w*h)
 
-        sums_prob_y_1 = (input*target_mask).sum(axis=1)  # shape (bs, width*height)
+        sums_prob_y_1 = (pred_ * target_mask).sum(axis=1)  # shape (bs, width*height)
 
         # Clip low probabilities
         sums_prob_y_1[sums_prob_y_1 < THRESH_LOWER_CLIP_PROBS] = THRESH_LOWER_CLIP_PROBS

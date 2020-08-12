@@ -1,0 +1,12 @@
+[flake8]
+ignore =
+  # I100, I101: Import statements are in the wrong order. Too much a hazzle for now
+  I100, I101,
+  # W503 line break before binary operator. Deactivated because of incompatibility with black
+  W503,
+  # Personal taste
+  E252,
+  E701
+max_line_length = 120
+import_order_style = appnexus
+application_package_names = src

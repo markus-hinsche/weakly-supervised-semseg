@@ -23,11 +23,13 @@ The dataset contains 33 high-resolution (approx 1500x2000px) aerial images of th
 Each of the aerial images are split into tiles with a resolution of 200x200.
 
 We split the dataset into 3 sets:
+
 * `N1` = 3 high-resolution images (10% of the data)
 * `N2` = 23 high-resolution images (70% of the data)
 * `N_validation` = 7 high-resolution images (20% of the data)
 
 Now the project will train and compare semantic segmentation networks, using the following data:
+
 * Task (i)​: N1 pixel level labels;
 * Task (ii): N2 tile-level class labels
 * Task (iii)​: N1 pixel level labels + N2 tile-level class labels
@@ -50,7 +52,7 @@ of the appearing classes `y_c=1`
 (we disregard classes where the label is `y_c=0`).
 Now the loss for one image is defined by the formula:
 
-<img src="https://render.githubusercontent.com/render/math?math=loss = \sum_i^N -log(q_i)">
+![loss formula](https://render.githubusercontent.com/render/math?math=loss=\sum_i^N-log(q_i))
 
 where `N` is the number of pixels.
 
@@ -68,6 +70,7 @@ We use the `WeakCrossEntropy` loss to train it.
 Task (iii): We first train fully-supervised on N1.
 We take the resulting network and continue training it weakly supervised (with tile-level class labels using `WeakCrossEntropy`)
 In detail, we use the following training schedule:
+
 * We train fully-supervised for a cycle length of 20 epochs.
 * We train weakly-supervised for a cycle length of one epoch, and the fully-supervised for a cycle length of one epoch.
 * We repeat the previous step 4 more times.

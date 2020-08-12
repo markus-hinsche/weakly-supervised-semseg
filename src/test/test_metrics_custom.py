@@ -1,7 +1,7 @@
 import torch
 
 from ..metrics_custom import acc_satellite, acc_weakly
-from ..config import CODES
+from ..constants import CODES
 
 
 def test_acc_satellite():

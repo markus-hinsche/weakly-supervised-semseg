@@ -4,7 +4,7 @@ import os, os.path
 from pathlib import Path
 
 from ..util import get_y_colors, REGEX_IMG_FILE_NAME, REGEX_IMG_FILE_NAME, REGEX_IMG_FILE_NAME_WITH_LABEL_VECTOR
-from ..config import WHITE, BLUE, YELLOW
+from ..constants import WHITE, BLUE, YELLOW
 
 def test_get_y_colors():
     path = Path(__file__).parent / "test_data" / "top_mosaic_09cm_area1_tile1_11001.tif"

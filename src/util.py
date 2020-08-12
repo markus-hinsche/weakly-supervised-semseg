@@ -9,7 +9,7 @@ import torch
 from fastai.vision.image import ImageSegment
 from fastai.basic_train import Learner
 
-from src.config import (IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR,
+from src.constants import (IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR,
                      GT_ADJ_TILES_DIR, TILES_DIR,
                      LABELS, RED, BLACK, N1, N2, N_validation, MODEL_DIR,
                      BASE_DIR

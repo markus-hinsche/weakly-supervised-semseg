@@ -4,7 +4,7 @@ from torch import nn
 from fastai.layers import CrossEntropyFlat
 
 from ..loss_custom import WeakCrossEntropy
-from ..config import CODES
+from ..constants import CODES
 
 code2class = {code: i for i, code in enumerate(CODES)}
 codes2classes = lambda x: [code2class[item] for item in x]

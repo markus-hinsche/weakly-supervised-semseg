@@ -4,7 +4,7 @@ import os, os.path
 from pathlib import Path
 
 from ..prep_tiles import image_to_label
-from ..config import LABELS, BLUE, YELLOW, WHITE
+from ..constants import LABELS, BLUE, YELLOW, WHITE
 
 
 def test_prep_tile():

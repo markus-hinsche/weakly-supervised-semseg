@@ -2,7 +2,7 @@ from typing import List
 
 import torch
 
-from src.config import LABELS, RED, BLACK
+from src.constants import LABELS, RED, BLACK
 
 use_cuda = torch.cuda.is_available()
 device = torch.device("cuda" if use_cuda else "cpu")

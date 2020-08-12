@@ -36,7 +36,7 @@ Labels are supplied with 1 class per pixel, as follows:
 
 [src/prep_tiles.py](src/prep_tiles.py): Creates weakly-supervised tile-level annotations.
 
-[src/split_sets.py](src/split_sets.py): Creates the N1, N2, N_validation split (randomly), see `src/config.py` for the resulting split.
+[src/split_sets.py](src/split_sets.py): Creates the N1, N2, N_validation split (randomly), see `src/constants.py` for the resulting split.
 
 [src/mask_conversion.py](src/mask_conversion.py): Takes 3 channel RGB masks and translates them into 1 channel images where a pixel value is encoded by `0`, `1`, `2`, `3`, ..., `n_colors`
 

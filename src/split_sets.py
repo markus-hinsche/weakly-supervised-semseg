@@ -3,7 +3,7 @@ from pprint import pprint
 import os
 from pathlib import Path
 
-from src.config import IMAGE_DATA_DIR
+from src.constants import IMAGE_DATA_DIR
 
 random.seed(42)
 
@@ -24,4 +24,4 @@ if __name__ == "__main__":
     pprint(N2)
     pprint(N3)
 
-    # Find results in config.py
+    # Find results in constants.py

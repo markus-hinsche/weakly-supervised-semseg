@@ -34,6 +34,7 @@ LABELS = [
     GREEN,
     YELLOW,
 ]
+ALL_LABELS = LABELS + [RED, BLACK]
 
 def _gen_combinations(s_list: List[str]) -> List[str]:
     l = []

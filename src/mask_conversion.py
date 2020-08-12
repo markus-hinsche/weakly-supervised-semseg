@@ -5,8 +5,8 @@ from pathlib import Path
 
 from PIL import Image
 import numpy as np
+from src.constants import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, GT_ADJ_TILES_DIR, TILES_DIR, ALL_LABELS, WHITE, GT_ADJ_DIR
 
-from src.constants import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, GT_ADJ_TILES_DIR, TILES_DIR, LABELS, RED, BLACK, WHITE, GT_ADJ_DIR
 
 
 def convert_image(fpath, out_fpath):
@@ -15,7 +15,7 @@ def convert_image(fpath, out_fpath):
 
     output_array = np.ones(im_array.shape[:2]) * 255
 
-    for i, color in enumerate(LABELS + [RED, BLACK]):
+    for i, color in enumerate(ALL_LABELS):
         mask = np.all(im_array == color, axis=-1)
         output_array[mask] = i
 

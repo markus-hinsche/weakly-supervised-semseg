@@ -4,7 +4,8 @@
 3. Low vegetation - TURQUOISE
 4. Tree - GREEN
 5. Car - YELLOW
-6. Clutter/background - RED
+6. Clutter/background - RED (will be ignored)
+7. Waste - BLACK (will be ignored)
 
 For instance a tile containing classes 1, 2, and 5, would have a label of [1, 1, 0, 0, 1].
 """
@@ -14,14 +15,14 @@ from PIL import Image
 from pathlib import Path
 import shutil
 
-from src.constants import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, TILES_DIR, LABELS, RED, BLACK
+from src.constants import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, TILES_DIR, LABELS, ALL_LABELS
 
 
 def image_to_label(fpath_gt_tile):
     im = Image.open(fpath_gt_tile)
     distinct_pixel_values = set(im.getdata())
 
-    assert(distinct_pixel_values.issubset(LABELS + [RED, BLACK]))
+    assert(distinct_pixel_values.issubset(ALL_LABELS))
     label_vector = [int(color in distinct_pixel_values) for color in LABELS]
     return label_vector
 

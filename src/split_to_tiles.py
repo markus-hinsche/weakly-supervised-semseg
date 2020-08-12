@@ -25,6 +25,7 @@ def crop(input: str, output_pattern: str, height: int, width: int):
             tile.save(output_pattern % k)
             k += 1
 
+
 def main():
     for fname in os.listdir(Path(IMAGE_DATA_DIR)):
         print(fname)
@@ -42,6 +43,7 @@ def main():
             width=WIDTH_TILE)
 
     # Result: 33 high-res are split into 4497 tiles
+
 
 if __name__ == "__main__":
     main()

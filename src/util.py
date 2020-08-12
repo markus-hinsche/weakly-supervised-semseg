@@ -31,9 +31,11 @@ def set_seed(seed: int=42):
     import numpy as np
     np.random.seed(seed)
 
+
 IMG_FILE_PREFIX = "top_mosaic_09cm_area"
 REGEX_IMG_FILE_NAME = re.compile(fr"{IMG_FILE_PREFIX}(?P<area_id>\d+)_tile(?P<tile_id>\d+).tif")
 REGEX_IMG_FILE_NAME_WITH_LABEL_VECTOR = re.compile(IMG_FILE_PREFIX + r"(?P<area_id>\d+)_tile(?P<tile_id>\d+)_(?P<label_vector>\d{5}).tif")
+
 
 def _is_in_set(x: Path, N: List[str], regex_obj: re.Pattern) -> bool:
     """Determine if in set.
@@ -63,8 +65,10 @@ is_in_set_nvalidation = partial(_is_in_set, N=N_validation)
 is_in_set_n1_or_nvalidation = partial(_is_in_set, N=N1+N_validation)
 is_in_set_n2_or_nvalidation = partial(_is_in_set, N=N2+N_validation)
 
+
 def get_y_fn(x: Path) -> str:
     return BASE_DIR / GT_ADJ_TILES_DIR / x.name
+
 
 def get_y_colors(x: Path) -> List[Tuple[int, int, int]]:
     """Read the filename which contains the label vector
@@ -85,11 +89,11 @@ def get_y_colors(x: Path) -> List[Tuple[int, int, int]]:
     label_vector_arr = torch.tensor(list(map(int,label_vector)))
 
     indexes = torch.where(label_vector_arr == 1)[0]
+    assert 0<len(indexes)<=len(CLASSES), (len(indexes), x)
+
     colors = [CLASSES[idx] for idx in indexes]
-
-    assert 0<len(indexes)<6, (len(indexes), x)
-
     return colors
+
 
 def has_a_valid_color(x: Path) -> bool:
     fname = x.name
@@ -101,6 +105,7 @@ def has_a_valid_color(x: Path) -> bool:
 
     # There must be at least one color and at maximum num_classes colors
     return 0 < len(indexes) <= len(CLASSES)
+
 
 def show_prediction_vs_actual(sample_idx: int, learn: Learner) -> ImageSegment:
     """Return predicted mask, additionally print input image and tile-level label"""

@@ -6,6 +6,7 @@ import torch
 THRESH_LOWER_CLIP_PROBS = 0.001
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+
 class WeakCrossEntropy():
     """Cross Entropy for semantically segmented images based on weak labels.
 

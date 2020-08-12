@@ -8,7 +8,6 @@ import numpy as np
 from src.constants import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, GT_ADJ_TILES_DIR, TILES_DIR, ALL_CLASSES, WHITE, GT_ADJ_DIR
 
 
-
 def convert_image(fpath, out_fpath):
     im = Image.open(fpath)
     im_array = np.asarray(im)
@@ -25,8 +24,8 @@ def convert_image(fpath, out_fpath):
     im = Image.fromarray(output_array.astype(np.uint8), mode='L')
     im.save(out_fpath, "TIFF")
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     src_dir = GT_TILES_DIR
     dest_dir = GT_ADJ_TILES_DIR
 

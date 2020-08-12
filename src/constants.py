@@ -3,7 +3,6 @@ from typing import List
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parents[1].absolute()
-
 MODEL_DIR = BASE_DIR / 'data' / 'models'
 
 IMAGE_DATA_DIR = "data/ISPRS_semantic_labeling_Vaihingen/top/"  # file e.g. top_mosaic_09cm_area1.tif
@@ -15,9 +14,6 @@ GT_TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE_til
 GT_ADJ_TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen_ground_truth_COMPLETE_ADJ_tiles/"  # file e.g. top_mosaic_09cm_area1_tile1.tif  # 1 channel GT
 TILES_DIR = "data/ISPRS_semantic_labeling_Vaihingen/top_weaklabel_tiles/"  # file e.g. top_mosaic_09cm_area1_tile1_01100.tif
 
-HEIGHT_TILE = 200
-WIDTH_TILE = 200
-
 # Meanings according to http://www2.isprs.org/commissions/comm3/wg4/semantic-labeling.html
 WHITE = (255, 255, 255)  # Impervious surfaces
 BLUE = (0, 0, 255)  # Building
@@ -26,7 +22,6 @@ GREEN = (0, 255, 0)  # Tree
 YELLOW = (255, 255, 0)  # Car
 RED = (255, 0, 0)  # Clutter/Background
 BLACK = (0, 0, 0)  # leftover waste/bleed where tiles where cut but didn't fill a complete tile: ignore
-
 CLASSES = [
     WHITE,
     BLUE,

@@ -4,7 +4,10 @@ import os
 from PIL import Image
 from pathlib import Path
 
-from src.constants import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, HEIGHT_TILE, WIDTH_TILE
+from src.constants import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR
+
+HEIGHT_TILE = 200
+WIDTH_TILE = 200
 
 # Inspired by https://stackoverflow.com/a/7051075/5497962
 def crop(input: str, output_pattern: str, height: int, width: int):

@@ -16,10 +16,9 @@ class WeakCrossEntropy():
     Weak labels are vector of color flags.
     Each flags represents whether a certain color exists in the image or not.
     """
-    def __init__(self, codes, axis=1):
+    def __init__(self, axis=1):
         self.axis = axis
         assert axis == 1
-        self.codes = codes
         self.one_tensor = torch.Tensor([1.]).to(device)
 
     def __call__(self, input_orig, target):

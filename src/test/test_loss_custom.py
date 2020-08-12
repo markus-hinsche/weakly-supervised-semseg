@@ -1,13 +1,11 @@
+from typing import List
+
 import numpy as np
 import torch
 from torch import nn
 from fastai.layers import CrossEntropyFlat
 
 from ..loss_custom import WeakCrossEntropy
-from ..constants import CODES
-
-code2class = {code: i for i, code in enumerate(CODES)}
-codes2classes = lambda x: [code2class[item] for item in x]
 
 def test_cross_entropy():
     n_classes = 5
@@ -37,7 +35,7 @@ def test_weak_cross_entropy_basic():
 
     ys = torch.tensor([[1,1,0,0,1], [0,1,0,0,1]])
 
-    loss = WeakCrossEntropy(CODES, axis=1)
+    loss = WeakCrossEntropy()
     value = loss(predictions, ys)
     assert value > 0
 
@@ -53,7 +51,7 @@ def test_weak_cross_entropy_all_classes():
 
     ys = torch.tensor([[1,1,1,1,1], [1,1,1,1,1]])
 
-    loss = WeakCrossEntropy(CODES, axis=1)
+    loss = WeakCrossEntropy()
     value = loss(predictions, ys)
     assert torch.isclose(value, torch.Tensor([0.]))
 
@@ -70,7 +68,7 @@ def test_weak_cross_entropy_one_color_correct():
 
     ys = torch.tensor([[0,0,0,1,0], [1,0,0,1,0]])
 
-    loss = WeakCrossEntropy(CODES, axis=1)
+    loss = WeakCrossEntropy()
     value = loss(predictions, ys)
 
     # Assert small loss
@@ -89,7 +87,7 @@ def test_weak_cross_entropy_one_color_wrong():
 
     ys = torch.tensor([[0,0,0,1,0], [0,0,0,1,0]])
 
-    loss = WeakCrossEntropy(CODES, axis=1)
+    loss = WeakCrossEntropy()
     value = loss(predictions, ys)
 
     # Assert big loss

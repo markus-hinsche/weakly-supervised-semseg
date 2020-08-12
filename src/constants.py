@@ -36,20 +36,6 @@ CLASSES = [
 ]
 ALL_CLASSES = CLASSES + [RED, BLACK]
 
-def _gen_combinations(s_list: List[str]) -> List[str]:
-    l = []
-    for s in s_list: l.extend([s+'0', s+'1'])
-    return l
-
-def _gen_codes() -> List[str]:
-    """returns the list ['00000', '00001' ... '11111'] """
-    l = ['0', '1']
-    for _ in range(4):
-        l = _gen_combinations(l)
-    return l
-CODES = _gen_codes()
-
-
 N1 = [
     'top_mosaic_09cm_area12.tif',
     'top_mosaic_09cm_area15.tif',

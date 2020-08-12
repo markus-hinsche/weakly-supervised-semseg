@@ -37,8 +37,8 @@ REGEX_IMG_FILE_NAME = re.compile(fr"{IMG_FILE_PREFIX}(?P<area_id>\d+)_tile(?P<ti
 REGEX_IMG_FILE_NAME_WITH_LABEL_VECTOR = re.compile(IMG_FILE_PREFIX + r"(?P<area_id>\d+)_tile(?P<tile_id>\d+)_(?P<label_vector>\d{5}).tif")
 
 
-def _is_in_set(x: Path, N: List[str], regex_obj: re.Pattern) -> bool:
-    """Determine if in set.
+def _is_in_imageset(x: Path, images: List[str], regex_obj: re.Pattern) -> bool:
+    """Determine if in a sample is part of a list of images.
 
     Args:
         x: Input posix path
@@ -56,14 +56,14 @@ def _is_in_set(x: Path, N: List[str], regex_obj: re.Pattern) -> bool:
     area_id = match_result.group('area_id')
     tile_id = match_result.group('tile_id')
     image_fname = f"{IMG_FILE_PREFIX}{area_id}.tif"  # e.g.: top_mosaic_09cm_area30.tif'
-    return image_fname in N
+    return image_fname in images
 
 
-is_in_set_n1 = partial(_is_in_set, N=N1)
-is_in_set_n2 = partial(_is_in_set, N=N2)
-is_in_set_nvalidation = partial(_is_in_set, N=N_validation)
-is_in_set_n1_or_nvalidation = partial(_is_in_set, N=N1+N_validation)
-is_in_set_n2_or_nvalidation = partial(_is_in_set, N=N2+N_validation)
+is_in_set_n1 = partial(_is_in_imageset, images=N1)
+is_in_set_n2 = partial(_is_in_imageset, images=N2)
+is_in_set_nvalidation = partial(_is_in_imageset, images=N_validation)
+is_in_set_n1_or_nvalidation = partial(_is_in_imageset, images=N1+N_validation)
+is_in_set_n2_or_nvalidation = partial(_is_in_imageset, images=N2+N_validation)
 
 
 def get_y_fn(x: Path) -> str:

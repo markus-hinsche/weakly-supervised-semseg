@@ -4,12 +4,11 @@ import torch
 
 from src.constants import CLASSES, RED, BLACK
 
-use_cuda = torch.cuda.is_available()
-device = torch.device("cuda" if use_cuda else "cpu")
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-name2id = {v:k for k,v in enumerate(CLASSES+[RED, BLACK])}
-void_codes_red = name2id[RED]
-void_codes_black = name2id[BLACK]
+NAME2ID = {v:k for k,v in enumerate(CLASSES+[RED, BLACK])}
+VOID_CODES_RED = NAME2ID[RED]
+VOID_CODES_BLACK = NAME2ID[BLACK]
 
 
 def acc_satellite(input: torch.tensor, target: torch.tensor) -> torch.tensor:
@@ -23,8 +22,8 @@ def acc_satellite(input: torch.tensor, target: torch.tensor) -> torch.tensor:
         One value for the mean accuracy
     """
     target = target.squeeze(1)
-    mask = target != void_codes_red
-    mask = target != void_codes_black
+    mask = target != VOID_CODES_RED
+    mask = target != VOID_CODES_BLACK
     return (input.argmax(dim=1)[mask]==target[mask]).float().mean()
 
 
@@ -48,7 +47,7 @@ def acc_weakly(input: torch.tensor, target: List[int]) -> torch.tensor:
 
     input_ = input_.argmax(dim=1)  # shape: (bs, pixel)
 
-    mat = torch.zeros(input_.shape).to(device)
+    mat = torch.zeros(input_.shape).to(DEVICE)
     for batch_idx in range(bs):
         for i in range(ncolors):
             if target[batch_idx][i] == 0:

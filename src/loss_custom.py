@@ -3,12 +3,8 @@ from typing import Tuple, List
 import numpy as np
 import torch
 
-
 THRESH_LOWER_CLIP_PROBS = 0.001
-
-use_cuda = torch.cuda.is_available()
-device = torch.device("cuda" if use_cuda else "cpu")
-
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class WeakCrossEntropy():
     """Cross Entropy for semantically segmented images based on weak labels.
@@ -19,7 +15,7 @@ class WeakCrossEntropy():
     def __init__(self, axis=1):
         self.axis = axis
         assert axis == 1
-        self.one_tensor = torch.Tensor([1.]).to(device)
+        self.one_tensor = torch.Tensor([1.]).to(DEVICE)
 
     def __call__(self, input_orig, target):
         """

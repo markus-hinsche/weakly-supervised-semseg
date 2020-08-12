@@ -73,11 +73,15 @@ In fully-supervised training, the learning rate was chosen to be `3e-4`.
 In purely weakly-supervised training, the learning rate was chosen to be `1e-3`.
 In mixed training, the learning rate was chosen to be `3e-4` for the fully-supervised part and `1e-4` for the weakly-supervised part.
 
+Metrics are reported in accuracy like done in the
+[challenge](http://www2.isprs.org/commissions/comm3/wg4/semantic-labeling.html#Vaihingen2D_label_eval).
+Pixels that are waste/bleed from cutting into tiles are not included when calculating accuracy.
+Also, pixels annotated as background/clutter are not included.
+
 ### Best reported results from the context
 
 For a comparison, here are the results from the best performing algorithms in the
 [challenge](http://www2.isprs.org/commissions/comm2/wg4/vaihingen-2d-semantic-labeling-contest.html).
-
 * the best supervised method achieves `91.6%` accuracy
 * the best unsupervised method achieves `81.8%` accuracy
 
@@ -107,4 +111,6 @@ and slightly better results than full supervision.
   It would be interesting to use batches in a way that one batch contains both fully-supervised and weakly-supervised
   in one batch (as done in the paper [Deep Learning with Mixed Supervision for Brain Tumor Segmentation](https://arxiv.org/abs/1812.04571)).
 * Another improvement could be made by having a closer look at the type of mistakes that the model makes in the predicted mask.
+  Like done in the [challenge result](http://www2.isprs.org/commissions/comm2/wg4/vaihingen-2d-semantic-labeling-contest.html)
+  we could examine the accuracy per class.
 * This project only used Resnet18, larger U-net backbones could be tried

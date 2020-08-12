@@ -7,7 +7,7 @@ from src.config import LABELS, RED, BLACK
 use_cuda = torch.cuda.is_available()
 device = torch.device("cuda" if use_cuda else "cpu")
 
-name2id = {v:k for k,v in enumerate(LABELS+[RED, BLACK])}  # {WHITE:0, BLUE:1}
+name2id = {v:k for k,v in enumerate(LABELS+[RED, BLACK])}
 void_codes_red = name2id[RED]
 void_codes_black = name2id[BLACK]
 

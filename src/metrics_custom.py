@@ -32,7 +32,7 @@ def acc_weakly(input: torch.tensor, target: List[int]) -> torch.tensor:
 
     Args:
         input: Predictions
-        target: 0 or 1 for each of the 5 colors
+        target: List of numbers 0 or 1 for each of colors
 
     Returns:
         One value for the mean accuracy
@@ -40,17 +40,20 @@ def acc_weakly(input: torch.tensor, target: List[int]) -> torch.tensor:
     bs, ncolors, width, height = input.shape
     input_ = input.reshape(bs, ncolors, -1)
 
-    num_colors = 5
+    # If the prediction is too big, reduce it to num_colors
+    num_colors = len(CLASSES)
     if ncolors > num_colors:
-        input_ = input_[:, 0:num_colors,:]
+        input_ = input_[:, 0:num_colors, :]
         ncolors = num_colors
 
     input_ = input_.argmax(dim=1)  # shape: (bs, pixel)
 
-    mat = torch.zeros(input_.shape).to(DEVICE)
+    # Set those pixels to one that appear in the tile-level label
+    mask = torch.zeros(input_.shape).to(DEVICE)
     for batch_idx in range(bs):
         for i in range(ncolors):
             if target[batch_idx][i] == 0:
                 continue
-            mat[batch_idx][input_[batch_idx]==i] = 1
-    return mat.float().mean()
+            mask[batch_idx][input_[batch_idx]==i] = 1
+
+    return mask.float().mean()

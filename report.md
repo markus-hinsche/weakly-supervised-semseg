@@ -2,9 +2,9 @@
 
 ## Introduction
 
-For the task of image segmentation, labeling each pixel in an image (pixel-level annotation)
-gives very good results, because it can be trained with full supervision.
-However, collecting this type of annotation is quite time consuming.
+For the task of image segmentation, training models with pixel-level annotations (labeling each pixel in an image)
+yields very good models because they can be trained with full supervision.
+However, collecting images with this type of annotation is quite time consuming.
 
 Alternatively, making high-level annotations for each image (image-level annoation)
 is less labour intensive and might be able to yield comparable results.
@@ -13,10 +13,7 @@ We will refer to this as weak supervision.
 Full supervision (pixel-level annotations) and weak supervision (image-level annotations) can be mixed.
 In this project, we want to investigate mixed supervision and compare it to full supervision and to weak supervision.
 
-## Related work
-
-There are methods for weakly supervised learning, e.g., some methods using class activation maps.
-This project takes an even simpler approach which only designs a loss function for weak labels.
+This project explores a simple approach which designs a loss function for weak labels.
 
 ## Data and Task
 
@@ -70,17 +67,23 @@ We take the resulting network and continue training it weakly supervised (with t
 
 ## Results
 
+The models were trained on a Tesla P100, with a `resnet18` backbone
+and a batch size of `64`, weigth decay of `0.1`.
+In fully-supervised training, the learning rate was chosen to be `3e-4`.
+In purely weakly-supervised training, the learning rate was chosen to be `1e-3`.
+In mixed training, the learning rate was chosen to be `3e-4` for the fully-supervised part and `1e-4` for the weakly-supervised part.
+
 ### Best reported results from the context
 
 For a comparison, here are the results from the best performing algorithms in the
 [challenge](http://www2.isprs.org/commissions/comm2/wg4/vaihingen-2d-semantic-labeling-contest.html).
 
-* supervised: `91.6%`
-* unsupervised: `81.8%`
+* the best supervised method achieves `91.6%` accuracy
+* the best unsupervised method achieves `81.8%` accuracy
 
 ### This project's results on 100x100 resolution
 
-Experiments are often done with src_size/2 which is faster (5sec instead 14sec), but yields a few percent less in accuracy.
+Experiments are often done on a scaled-down image which is faster (approx 5sec instead 14sec), but yields a few percent less in accuracy.
 
 * training supervised with N1+N2: `83.3%`
 * Task (i): fully-supervised training with N1 only: `76.5%`
@@ -94,13 +97,14 @@ Experiments are often done with src_size/2 which is faster (5sec instead 14sec),
 * Task (ii): weakly-supervised training with N2 only: `59.3%`
 * Task (iii): mixed supervision: supervised (N1) + weakly-supervised (N2): `80.5%`
 
-This shows that mixed supervision achieves better results than weak supervision
+This shows that for this approach on this task: mixed supervision achieves better results than weak supervision
 and slightly better results than full supervision.
 
 ## Future work / Improvements
 
-* When combining FS+WS, this project trained one epoch either fully-supervised or weakly-supervised:
+* When combining fully-supervised and weakly-supervised training,
+  this project trained one epoch either fully-supervised or weakly-supervised:
   It would be interesting to use batches in a way that one batch contains both fully-supervised and weakly-supervised
-  in one batch (as done in [Deep Learning with Mixed Supervision for Brain Tumor Segmentation](https://arxiv.org/abs/1812.04571)).
+  in one batch (as done in the paper [Deep Learning with Mixed Supervision for Brain Tumor Segmentation](https://arxiv.org/abs/1812.04571)).
 * Another improvement could be made by having a closer look at the type of mistakes that the model makes in the predicted mask.
 * This project only used Resnet18, larger U-net backbones could be tried

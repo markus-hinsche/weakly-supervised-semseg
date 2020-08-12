@@ -65,9 +65,9 @@ We train for a cycle length of 20 epochs.
 We don't use any pixel-level (N1) labels.
 We use the `WeakCrossEntropy` loss to train it.
 
-Task (iii): We first train the fully-supervised on N1.
+Task (iii): We first train fully-supervised on N1.
 We take the resulting network and continue training it weakly supervised (with tile-level class labels using `WeakCrossEntropy`)
-We use the following training schedule:
+In detail, we use the following training schedule:
 * We train fully-supervised for a cycle length of 20 epochs.
 * We train weakly-supervised for a cycle length of one epoch, and the fully-supervised for a cycle length of one epoch.
 * We repeat the previous step 4 more times.
@@ -86,7 +86,7 @@ Metrics are reported in accuracy like done in the
 Pixels that are waste/bleed from cutting into tiles are not included when calculating accuracy.
 Also, pixels annotated as background/clutter are not included.
 
-### Best reported results from the context
+### Best reported results from the contest
 
 For a comparison, here are the results from the best performing algorithms in the
 [challenge](http://www2.isprs.org/commissions/comm2/wg4/vaihingen-2d-semantic-labeling-contest.html).
@@ -126,6 +126,6 @@ and slightly better results than full supervision.
   It would be interesting to use batches in a way that one batch contains both fully-supervised and weakly-supervised
   in one batch (as done in the paper [Deep Learning with Mixed Supervision for Brain Tumor Segmentation](https://arxiv.org/abs/1812.04571)).
 * Another improvement could be made by having a closer look at the type of mistakes that the model makes in the predicted mask.
-  Like done in the [challenge result](http://www2.isprs.org/commissions/comm2/wg4/vaihingen-2d-semantic-labeling-contest.html)
-  we could examine the accuracy per class.
-* This project only used Resnet18, larger U-net backbones could be tried
+  Same as in the [challenge result](http://www2.isprs.org/commissions/comm2/wg4/vaihingen-2d-semantic-labeling-contest.html)
+  we could investigate the accuracy per class.
+* This project only used Resnet18, larger U-net backbones could be tried.

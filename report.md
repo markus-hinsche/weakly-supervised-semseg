@@ -82,24 +82,31 @@ Also, pixels annotated as background/clutter are not included.
 
 For a comparison, here are the results from the best performing algorithms in the
 [challenge](http://www2.isprs.org/commissions/comm2/wg4/vaihingen-2d-semantic-labeling-contest.html).
-* the best supervised method achieves `91.6%` accuracy
-* the best unsupervised method achieves `81.8%` accuracy
+
+| Strategy                     | accuracy |
+|------------------------------|:--------:|
+| the best supervised method   |   91.6%  |
+| the best unsupervised method |   81.8%  |
 
 ### This project's results on 100x100 resolution
 
 Experiments are often done on a scaled-down image which is faster (approx 5sec instead 14sec), but yields a few percent less in accuracy.
 
-* training supervised with N1+N2: `83.3%`
-* Task (i): fully-supervised training with N1 only: `76.5%`
-* Task (ii): weakly-supervised training with N2 only: `57.3%`
-* Task (iii): mixed supervision: supervised (N1) + weakly-supervised (N2): `78%`
+| Task                                                                    | accuracy |
+|-------------------------------------------------------------------------|:--------:|
+| training supervised with N1+N2                                          | 83.3%    |
+| Task (i): fully-supervised training with N1 only                        | 76.5%    |
+| Task (ii): weakly-supervised training with N2 only                      | 57.3%    |
+| Task (iii): mixed supervision: supervised (N1) + weakly-supervised (N2) | 78%      |
 
 ### This project's results on full 200x200 resolution
 
-* training supervised with N1+N2: `85.8%`
-* Task (i): fully-supervised training with N1 only: `79.6%`
-* Task (ii): weakly-supervised training with N2 only: `59.3%`
-* Task (iii): mixed supervision: supervised (N1) + weakly-supervised (N2): `80.5%`
+| Task                                                                    | accuracy |
+|-------------------------------------------------------------------------|:--------:|
+| training supervised with N1+N2                                          | 85.8%    |
+| Task (i): fully-supervised training with N1 only                        | 79.6%    |
+| Task (ii): weakly-supervised training with N2 only                      | 59.3%    |
+| Task (iii): mixed supervision: supervised (N1) + weakly-supervised (N2) | 80.5%    |
 
 This shows that for this approach on this task: mixed supervision achieves better results than weak supervision
 and slightly better results than full supervision.

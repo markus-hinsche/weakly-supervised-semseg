@@ -5,22 +5,27 @@ from pathlib import Path
 
 from ..split_to_tiles import crop
 
+
 def count_elements_in_dir(directory):
-    return len([f for f in os.listdir(directory) if not f.startswith('.')])
+    return len([f for f in os.listdir(directory) if not f.startswith(".")])
+
 
 def empty_dir(directory):
-    files = glob.glob(str(directory) + '/*')
+    files = glob.glob(str(directory) + "/*")
     for f in files:
         os.remove(f)
+
 
 def test_crop_count():
     input_dir = Path(__file__).parent / "test_data"
     output_dir = Path(__file__).parent / "test_data_tmp"
 
-    crop(input=str(input_dir/ "minions_PNG30.PNG"),  # dim: 350 × 490
-         output_pattern=str(output_dir / "minions_PNG30_tile%s.png"),
-         height=100,
-         width=100)
+    crop(
+        input=str(input_dir / "minions_PNG30.PNG"),  # dim: 350 × 490
+        output_pattern=str(output_dir / "minions_PNG30_tile%s.png"),
+        height=100,
+        width=100,
+    )
     actual = count_elements_in_dir(output_dir)
     expected = math.ceil(350 / 100) * math.ceil(490 / 100)
     assert actual == expected, os.listdir(output_dir)

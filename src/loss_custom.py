@@ -4,16 +4,17 @@ THRESH_LOWER_CLIP_PROBS = 0.001
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-class WeakCrossEntropy():
+class WeakCrossEntropy:
     """Cross Entropy for semantically segmented images based on weak labels.
 
     Weak labels are vector of color flags.
     Each flags represents whether a certain color exists in the image or not.
     """
+
     def __init__(self, axis=1):
         self.axis = axis
         assert axis == 1
-        self.one_tensor = torch.Tensor([1.]).to(DEVICE)
+        self.one_tensor = torch.Tensor([1.0]).to(DEVICE)
 
     def __call__(self, pred, target):
         """
@@ -39,7 +40,9 @@ class WeakCrossEntropy():
         if torch.isnan(pred_).any():
             raise Exception("input is nan: " + str(pred_))
 
-        target_mask = target.repeat(width * height, 1, 1).transpose(0, 1).transpose(1, 2)  # shape (bs, ncolors, w*h)
+        target_mask = (
+            target.repeat(width * height, 1, 1).transpose(0, 1).transpose(1, 2)
+        )  # shape (bs, ncolors, w*h)
 
         sums_prob_y_1 = (pred_ * target_mask).sum(axis=1)  # shape (bs, width*height)
 

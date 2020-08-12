@@ -15,14 +15,20 @@ from PIL import Image
 from pathlib import Path
 import shutil
 
-from src.constants import IMAGE_DATA_DIR, GT_DIR, IMAGE_DATA_TILES_DIR, GT_TILES_DIR, TILES_DIR, CLASSES, ALL_CLASSES
+from src.constants import (
+    IMAGE_DATA_TILES_DIR,
+    GT_TILES_DIR,
+    TILES_DIR,
+    CLASSES,
+    ALL_CLASSES,
+)
 
 
 def image_to_label(fpath_gt_tile):
     im = Image.open(fpath_gt_tile)
     distinct_pixel_values = set(im.getdata())
 
-    assert(distinct_pixel_values.issubset(ALL_CLASSES))
+    assert distinct_pixel_values.issubset(ALL_CLASSES)
     label_vector = [int(color in distinct_pixel_values) for color in CLASSES]
     return label_vector
 
@@ -35,5 +41,6 @@ if __name__ == "__main__":
         print(fname, label_string)
 
         fpath_src = Path(IMAGE_DATA_TILES_DIR) / fname
-        fpath_dest = os.path.join(TILES_DIR, f"{fname[:-4]}_{label_string}.tif")  # file e.g. top_mosaic_09cm_area1_tile167_01100.tif
+
+        fpath_dest = os.path.join(TILES_DIR, f"{fname[:-4]}_{label_string}.tif")
         shutil.copy(fpath_src, fpath_dest)

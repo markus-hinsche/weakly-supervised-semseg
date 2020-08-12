@@ -24,7 +24,7 @@ def convert_image(fpath, out_fpath):
     # Make sure all pixels got converted
     assert np.all(output_array < 10)
 
-    im = Image.fromarray(output_array.astype(np.uint8), mode='L')
+    im = Image.fromarray(output_array.astype(np.uint8), mode="L")
     im.save(out_fpath, "TIFF")
 
 

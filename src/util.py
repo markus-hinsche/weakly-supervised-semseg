@@ -9,29 +9,45 @@ import torch
 from fastai.vision.image import ImageSegment
 from fastai.basic_train import Learner
 
-from src.constants import GT_ADJ_TILES_DIR, CLASSES, ALL_CLASSES, N1, N2, N_validation, BASE_DIR
+from src.constants import (
+    GT_ADJ_TILES_DIR,
+    CLASSES,
+    ALL_CLASSES,
+    N1,
+    N2,
+    N_validation,
+    BASE_DIR,
+)
 
 
-def set_seed(seed: int=42):
+def set_seed(seed: int = 42):
     # python RNG (random number generator)
     import random
+
     random.seed(seed)
 
     # pytorch RNGs
     import torch
+
     torch.manual_seed(seed)
     torch.backends.cudnn.deterministic = True
-    if torch.cuda.is_available(): torch.cuda.manual_seed_all(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
 
     # numpy RNG
     import numpy as np
+
     np.random.seed(seed)
 
 
 IMG_FILE_PREFIX = "top_mosaic_09cm_area"
-REGEX_IMG_FILE_NAME = re.compile(fr"{IMG_FILE_PREFIX}(?P<area_id>\d+)_tile(?P<tile_id>\d+).tif")
-REGEX_IMG_FILE_NAME_WITH_LABEL_VECTOR = (re.compile(IMG_FILE_PREFIX
-                                         + r"(?P<area_id>\d+)_tile(?P<tile_id>\d+)_(?P<label_vector>\d{5}).tif"))
+REGEX_IMG_FILE_NAME = re.compile(
+    fr"{IMG_FILE_PREFIX}(?P<area_id>\d+)_tile(?P<tile_id>\d+).tif"
+)
+REGEX_IMG_FILE_NAME_WITH_LABEL_VECTOR = re.compile(
+    IMG_FILE_PREFIX
+    + r"(?P<area_id>\d+)_tile(?P<tile_id>\d+)_(?P<label_vector>\d{5}).tif"
+)
 
 
 def _is_in_imageset(x: Path, images: List[str], regex_obj: re.Pattern) -> bool:
@@ -47,11 +63,11 @@ def _is_in_imageset(x: Path, images: List[str], regex_obj: re.Pattern) -> bool:
     Returns:
         bool: If in imageset or not
     """
-    fname = x.name  # e.g.: top_mosaic_09cm_area30_tile120.tif'
+    fname = x.name  # e.g.: top_mosaic_09cm_area30_tile120.tif
 
     match_result = regex_obj.search(fname)
-    area_id = match_result.group('area_id')
-    image_fname = f"{IMG_FILE_PREFIX}{area_id}.tif"  # e.g.: top_mosaic_09cm_area30.tif'
+    area_id = match_result.group("area_id")
+    image_fname = f"{IMG_FILE_PREFIX}{area_id}.tif"  # e.g.: top_mosaic_09cm_area30.tif
     return image_fname in images
 
 
@@ -81,7 +97,7 @@ def get_y_colors(x: Path) -> List[Tuple[int, int, int]]:
     """
     fname = x.name
     match_result = REGEX_IMG_FILE_NAME_WITH_LABEL_VECTOR.search(fname)
-    label_vector = match_result.group('label_vector')
+    label_vector = match_result.group("label_vector")
     label_vector_arr = torch.tensor(list(map(int, label_vector)))
 
     indexes = torch.where(label_vector_arr == 1)[0]
@@ -94,7 +110,7 @@ def get_y_colors(x: Path) -> List[Tuple[int, int, int]]:
 def has_a_valid_color(x: Path) -> bool:
     fname = x.name
     match_result = REGEX_IMG_FILE_NAME_WITH_LABEL_VECTOR.search(fname)
-    label_vector = match_result.group('label_vector')
+    label_vector = match_result.group("label_vector")
     label_vector_arr = torch.tensor(list(map(int, label_vector)))
 
     indexes = torch.where(label_vector_arr == 1)[0]

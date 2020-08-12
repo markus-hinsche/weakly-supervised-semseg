@@ -16,12 +16,13 @@ def test_acc_satellite():
     predictions[:, 1, 1, :] = 0.6
 
     # Set color=3 for all pixels
-    ys = torch.ones(bs, 1, width, height, dtype=torch.float32)*3
+    ys = torch.ones(bs, 1, width, height, dtype=torch.float32) * 3
     # Set color=1 for pixels of a specific width
     ys[:, 0, 1, :] = 1
 
     accuracy = acc_satellite(predictions, ys)
-    assert torch.isclose(accuracy, torch.Tensor([1.]))
+    assert torch.isclose(accuracy, torch.Tensor([1.0]))
+
 
 def test_acc_weakly():
     n_classes = 5
@@ -36,10 +37,11 @@ def test_acc_weakly():
     # Set color=1 for pixels of a specific width
     predictions[:, 1, 1, :] = 0.6
 
-    ys = torch.tensor([[0,1,0,1,0], [0,1,0,0,0]])
+    ys = torch.tensor([[0, 1, 0, 1, 0], [0, 1, 0, 0, 0]])
     accuracy = acc_weakly(predictions, ys)
 
-    assert torch.isclose(accuracy, torch.Tensor([2/3]))
+    assert torch.isclose(accuracy, torch.Tensor([2 / 3]))
+
 
 def test_acc_weakly_with_7color_prediction():
     n_classes = 7
@@ -51,7 +53,7 @@ def test_acc_weakly_with_7color_prediction():
     predictions[:, 3, :, :] = 0.5
     predictions[:, 1, 1, :] = 0.6
 
-    ys = torch.tensor([[0,1,0,1,0], [0,1,0,0,0]])
+    ys = torch.tensor([[0, 1, 0, 1, 0], [0, 1, 0, 0, 0]])
     accuracy = acc_weakly(predictions, ys)
 
-    assert torch.isclose(accuracy, torch.Tensor([2/3]))
+    assert torch.isclose(accuracy, torch.Tensor([2 / 3]))

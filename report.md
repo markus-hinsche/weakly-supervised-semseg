@@ -56,14 +56,22 @@ where `N` is the number of pixels.
 
 ## Training
 
-Task (i): We use a U-net and train it fully-supervised using N1.
+For all trainings, we use the 1cycle policy ([Leslie Smith's paper](https://arxiv.org/abs/1803.09820)).
+
+Task (i): We use a U-net and train it fully-supervised using N1 and train for a cycle length of 30 epochs.
 
 Task (ii): We use a U-net and train on the N2 tile-level class labels (weakly supervised).
+We train for a cycle length of 20 epochs.
 We don't use any pixel-level (N1) labels.
 We use the `WeakCrossEntropy` loss to train it.
 
 Task (iii): We first train the fully-supervised on N1.
 We take the resulting network and continue training it weakly supervised (with tile-level class labels using `WeakCrossEntropy`)
+We use the following training schedule:
+* We train fully-supervised for a cycle length of 20 epochs.
+* We train weakly-supervised for a cycle length of one epoch, and the fully-supervised for a cycle length of one epoch.
+* We repeat the previous step 4 more times.
+* We train fully-supervised for a cycle length of 20 epochs.
 
 ## Results
 

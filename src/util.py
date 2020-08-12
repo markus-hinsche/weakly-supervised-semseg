@@ -98,9 +98,9 @@ def has_a_valid_color(x: Path) -> bool:
     label_vector_arr = torch.tensor(list(map(int,label_vector)))
 
     indexes = torch.where(label_vector_arr == 1)[0]
-    if not (0<len(indexes)<6):
-        return False
-    return True
+
+    # There must be at least one color and at maximum num_classes colors
+    return 0 < len(indexes) <= len(CLASSES)
 
 def show_prediction_vs_actual(sample_idx: int, learn: Learner) -> ImageSegment:
     """Return predicted mask, additionally print input image and tile-level label"""

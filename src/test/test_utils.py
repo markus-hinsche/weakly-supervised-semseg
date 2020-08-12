@@ -16,6 +16,10 @@ def test_has_a_valid_color():
     path = Path(__file__).parent / "test_data" / "top_mosaic_09cm_area38_tile1_11001.tif"
     assert has_a_valid_color(path)
 
+def test_has_not_a_valid_color():
+    path = Path(__file__).parent / "test_data" / "top_mosaic_09cm_area38_tile1_00000.tif"
+    assert not has_a_valid_color(path)
+
 def test_regex_file_name():
     fname = "top_mosaic_09cm_area27_tile154.tif"
     match_result = REGEX_IMG_FILE_NAME.search(fname)
